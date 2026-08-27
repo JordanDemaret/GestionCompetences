@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="EFGestionCompetences/EFGestionCompetences.csproj" />
+  <Project Path="GestionCompetences.API/GestionCompetences.API.csproj" />
+</Solution>
