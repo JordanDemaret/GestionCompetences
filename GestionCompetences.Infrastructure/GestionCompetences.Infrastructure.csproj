@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GestionCompetences.Application\GestionCompetences.Application.csproj" />
+    <ProjectReference Include="..\GestionCompetences.Domain\GestionCompetences.Domain.csproj" />
   </ItemGroup>
 
 </Project>

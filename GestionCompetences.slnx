@@ -1,6 +1,6 @@
 <Solution>
-  <Project Path="EFGestionCompetences/GestionCompetences.Domain.csproj" />
   <Project Path="GestionCompetences.API/GestionCompetences.API.csproj" />
   <Project Path="GestionCompetences.Application/GestionCompetences.Application.csproj" Id="79eb2bb1-da6d-44c6-91ff-2d37f6069dae" />
+  <Project Path="GestionCompetences.Domain/GestionCompetences.Domain.csproj" />
   <Project Path="GestionCompetences.Infrastructure/GestionCompetences.Infrastructure.csproj" Id="2df183ed-2761-4843-b694-b4d973e52d07" />
 </Solution>

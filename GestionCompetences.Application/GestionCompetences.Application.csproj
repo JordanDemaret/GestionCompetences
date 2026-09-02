@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EFGestionCompetences\GestionCompetences.Domain.csproj" />
+    <ProjectReference Include="..\GestionCompetences.Domain\GestionCompetences.Domain.csproj" />
   </ItemGroup>
 
 </Project>
