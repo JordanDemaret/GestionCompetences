@@ -1,4 +1,7 @@
+using GestionCompetences.Application.Common.Hasher;
+using GestionCompetences.Application.Utilisateur;
 using GestionCompetences.Infrastructure;
+using GestionCompetences.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Scalar.AspNetCore;
 
@@ -13,6 +16,10 @@ builder.Services.AddOpenApi();
 builder.Services.AddDbContext<CompetenceDBContext>(o =>
     o.UseSqlServer(builder.Configuration.GetConnectionString("database"))
 );
+
+builder.Services.AddSingleton<IPasswordHasher, PasswordHasherService>();
+
+builder.Services.AddScoped<IUtilisateurRepository, UtilisateurService>();
 
 var app = builder.Build();
 

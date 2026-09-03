@@ -11,8 +11,4 @@
     <ProjectReference Include="..\GestionCompetences.Domain\GestionCompetences.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Commun\CommandQuerySeparation\" />
-  </ItemGroup>
-
 </Project>
