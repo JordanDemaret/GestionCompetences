@@ -7,8 +7,8 @@
 
         public IEnumerable<CompetenceUtilisateur> CompetenceListe { get; set; } = new List<CompetenceUtilisateur>();
         public IEnumerable<HistoriqueProgression> Historiques { get; set; } = new List<HistoriqueProgression>();
-        
 
-    
+
+
     }
 }
