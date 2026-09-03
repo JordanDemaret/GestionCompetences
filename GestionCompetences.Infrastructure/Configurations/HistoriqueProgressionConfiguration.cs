@@ -15,14 +15,14 @@ namespace GestionCompetences.Infrastructure.Configurations
                    .HasForeignKey(hp => hp.CompetenceId);
 
             builder.HasOne(hp => hp.AncienNiveau)
-                   .WithMany(niv => niv.Historiques)
+                   .WithMany()
                    .HasForeignKey(hp => hp.AncienNiveauId)
                    .IsRequired(false)
                    .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(hp => hp.NouveauNiveau)
                    .WithMany(niv => niv.Historiques)
-                   .HasForeignKey(hp => hp.NouveauNiveau)
+                   .HasForeignKey(hp => hp.NouveauNiveauId)
                    .OnDelete(DeleteBehavior.Restrict);
         }
     }

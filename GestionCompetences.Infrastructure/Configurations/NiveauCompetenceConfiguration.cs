@@ -10,8 +10,11 @@ namespace GestionCompetences.Infrastructure.Configurations
         {
             builder.ToTable("Niveau_competence");
 
-            builder.Property(n => n.CompetenceListe)
+            builder.Property(n => n.Label)
                    .HasColumnType("NVARCHAR(200)");
+
+            builder.HasIndex(n => n.Label)
+                .IsUnique();
         }
     }
 }
