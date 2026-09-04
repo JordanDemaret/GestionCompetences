@@ -7,4 +7,10 @@ namespace GestionCompetences.Application.Common.CommandQuerySeparation
     {
         Result Handle(TCommand command);
     }
+
+    public interface ICommandeHandler<TCommand,TResult>
+        where TCommand : ICommandDefinition
+    {
+        Result<TResult> Handle(TCommand command);
+    }
 }

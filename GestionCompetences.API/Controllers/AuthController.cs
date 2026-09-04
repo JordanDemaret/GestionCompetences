@@ -17,19 +17,19 @@ namespace GestionCompetences.API.Controllers
         [HttpPost]
         public IActionResult Inscription(InscriptionDto inscription)
         {
-            Result result = _utilisateurRepository.Handle(new IncriptionCommande(inscription.Nom, inscription.Prenom, inscription.Email, inscription.MotDePasse));
+            Result<Guid> result = _utilisateurRepository.Handle(new IncriptionCommande(inscription.Nom, inscription.Prenom, inscription.Email, inscription.MotDePasse));
             if (result.IsFailure)
                 return BadRequest(result.Error);
-            return Ok();
+            return Ok(result.Data);
         }
 
         [HttpPost("loggin")]
         public IActionResult Connection(ConnectionDto connection)
         {
-            Result result = _utilisateurRepository.Handle(new ConnectionCommande(connection.Email, connection.MotDePasse));
+            Result<Guid> result = _utilisateurRepository.Handle(new ConnectionCommande(connection.Email, connection.MotDePasse));
             if (result.IsFailure)
                 return BadRequest(result.Error);
-            return Ok();
+            return Ok(result.Data);
         }
     }
 }
