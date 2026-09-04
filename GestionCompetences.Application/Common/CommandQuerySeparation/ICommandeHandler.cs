@@ -1,8 +1,10 @@
-﻿namespace GestionCompetences.Application.Common.CommandQuerySeparation
+﻿using GestionCompetences.Application.Common.Results;
+
+namespace GestionCompetences.Application.Common.CommandQuerySeparation
 {
     public interface ICommandeHandler<TCommand>
         where TCommand : ICommandDefinition
     {
-        void Handle(TCommand command);
+        Result Handle(TCommand command);
     }
 }

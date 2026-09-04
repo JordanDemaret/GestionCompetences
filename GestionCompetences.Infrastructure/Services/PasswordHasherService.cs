@@ -16,8 +16,13 @@ namespace GestionCompetences.Infrastructure.Services
             return $"{Convert.ToBase64String(salt)}.{Convert.ToBase64String(hash)}";
         }
 
-        public bool Verify(string motDePasseEnClair, string motDePasseHache)
+        public bool Verify(string motDePasseEnClair, string? motDePasseHache)
         {
+            if (motDePasseHache is null)
+            {
+                return false;
+            }
+
             var parts = motDePasseHache.Split('.');
             if (parts.Length != 2) return false;
 

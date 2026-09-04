@@ -7,7 +7,8 @@ using System.Text;
 namespace GestionCompetences.Application.Utilisateur
 {
     public interface IUtilisateurRepository :
-        ICommandeHandler<IncriptionCommande>
+        ICommandeHandler<IncriptionCommande>,
+        ICommandeHandler<ConnectionCommande>
     {
     }
 }
