@@ -1,10 +1,10 @@
-﻿using GestionCompetences.Application.Common.Hasher;
+﻿using GestionCompetences.Application.Common.Auth;
 using Konscious.Security.Cryptography;
 
 using System.Security.Cryptography;
 using System.Text;
 
-namespace GestionCompetences.Infrastructure.Services
+namespace GestionCompetences.Infrastructure.Auth
 {
     public class PasswordHasherService : IPasswordHasher
     {

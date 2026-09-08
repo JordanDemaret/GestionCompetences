@@ -1,4 +1,4 @@
-﻿using GestionCompetences.Application.Common.Hasher;
+﻿using GestionCompetences.Application.Common.Auth;
 using GestionCompetences.Application.Common.Results;
 using GestionCompetences.Application.Utilisateur;
 using GestionCompetences.Application.Utilisateur.Commande;
@@ -11,11 +11,13 @@ namespace GestionCompetences.Infrastructure.Services
     {
         private readonly CompetenceDBContext  _bdContext;
         private readonly IPasswordHasher _passwordHasher;
+        private readonly ITokenGenerator _tokenGenerator;
 
-        public UtilisateurService(CompetenceDBContext bdContext, IPasswordHasher passwordHasher)
+        public UtilisateurService(CompetenceDBContext bdContext, IPasswordHasher passwordHasher, ITokenGenerator token)
         {
             _bdContext = bdContext;
             _passwordHasher = passwordHasher;
+            _tokenGenerator = token;
         }
 
         public Result<Guid> Handle(IncriptionCommande command)
@@ -41,7 +43,7 @@ namespace GestionCompetences.Infrastructure.Services
             }
         }
 
-        public Result<Guid> Handle(ConnectionCommande command)
+        public Result<AccessToken> Handle(ConnectionCommande command)
         {
             try
             {
@@ -53,7 +55,7 @@ namespace GestionCompetences.Infrastructure.Services
                 if (!_passwordHasher.Verify(command.MotDePasse, utilisateur?.MotDePasse))
                     return UtilisateurErrors.UtilisationInfoAuthException;
 
-                return Result<Guid>.Success(utilisateur!.Id);
+                return Result<AccessToken>.Success(_tokenGenerator.Generator(utilisateur.Id));
             }
             catch (Exception)
             {

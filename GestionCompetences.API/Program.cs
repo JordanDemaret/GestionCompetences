@@ -1,4 +1,4 @@
-using GestionCompetences.Application.Common.Hasher;
+using GestionCompetences.Application.Common.Auth;
 using GestionCompetences.Application.Utilisateur;
 using GestionCompetences.Infrastructure;
 using GestionCompetences.Infrastructure.Auth;
@@ -26,6 +26,8 @@ builder.Services.AddDbContext<CompetenceDBContext>(o =>
 var jwt = builder.Configuration.GetSection(JwtOptions.SectionName).Get<JwtOptions>()
     ?? throw new InvalidOperationException("Section de configuration 'Jwt' introuvable.");
 
+builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(JwtOptions.SectionName));
+
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -45,7 +47,8 @@ builder.Services
     });
 
 
-builder.Services.AddScoped<IPasswordHasher, PasswordHasherService>();
+builder.Services.AddSingleton<IPasswordHasher, PasswordHasherService>();
+builder.Services.AddSingleton<ITokenGenerator, TokenGenerator>();
 builder.Services.AddScoped<IUtilisateurRepository, UtilisateurService>();
 
 var app = builder.Build();

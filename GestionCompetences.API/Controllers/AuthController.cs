@@ -1,4 +1,5 @@
 ﻿using GestionCompetences.API.Dto;
+using GestionCompetences.Application.Common.Auth;
 using GestionCompetences.Application.Common.Results;
 using GestionCompetences.Application.form;
 using GestionCompetences.Application.Utilisateur;
@@ -26,7 +27,7 @@ namespace GestionCompetences.API.Controllers
         [HttpPost("loggin")]
         public IActionResult Connection(ConnectionDto connection)
         {
-            Result<Guid> result = _utilisateurRepository.Handle(new ConnectionCommande(connection.Email, connection.MotDePasse));
+            Result<AccessToken> result = _utilisateurRepository.Handle(new ConnectionCommande(connection.Email, connection.MotDePasse));
             if (result.IsFailure)
                 return BadRequest(result.Error);
             return Ok(result.Data);
