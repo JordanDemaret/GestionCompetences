@@ -19,6 +19,12 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+
+builder.Services.AddCors(c => c.AddPolicy(FrontCorsPolicy, o =>
+{
+    o.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
+}));
+
 builder.Services.AddDbContext<CompetenceDBContext>(o =>
     o.UseSqlServer(builder.Configuration.GetConnectionString("database"))
 );

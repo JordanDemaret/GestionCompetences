@@ -4,6 +4,7 @@ using GestionCompetences.Application.Common.Results;
 using GestionCompetences.Application.form;
 using GestionCompetences.Application.Utilisateur;
 using GestionCompetences.Application.Utilisateur.Commande;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -24,13 +25,13 @@ namespace GestionCompetences.API.Controllers
             return Ok(result.Data);
         }
 
-        [HttpPost("loggin")]
-        public IActionResult Connection(ConnectionDto connection)
+        [HttpPost("login")]
+        public ActionResult<AccessTokenDto> Connection(ConnectionDto connection)
         {
             Result<AccessToken> result = _utilisateurRepository.Handle(new ConnectionCommande(connection.Email, connection.MotDePasse));
             if (result.IsFailure)
                 return BadRequest(result.Error);
-            return Ok(result.Data);
+            return Ok(AccessTokenDto.From(result.Data));
         }
     }
 }
