@@ -17,7 +17,6 @@ namespace GestionCompetences.API.Controllers
         private readonly ICategorieRepository _categorieRepository = categorieRepository;
 
         [HttpGet]
-        [Authorize]
         public IActionResult GetCategorie()
         {
             Result<IEnumerable<Categorie>> result = _categorieRepository.Handle(new GetCategorieListe());
@@ -27,9 +26,9 @@ namespace GestionCompetences.API.Controllers
 
         [HttpPost]
         [Authorize(Roles = "Admin")]
-        public IActionResult AddCategorie(AddCategorie addCompetence)
+        public IActionResult AddCategorie(AddCategorie add)
         {
-            Result result = _categorieRepository.Handle(new AddCategorie(addCompetence.Nom));
+            Result result = _categorieRepository.Handle(new AddCategorie(add.Nom));
             if (result.IsFailure)
                 return BadRequest(result.Error);
             return Ok();
@@ -37,11 +36,11 @@ namespace GestionCompetences.API.Controllers
 
         [HttpPut]
         [Authorize(Roles = "Admin")]
-        public IActionResult ModiffierCategorie(ModifierCategorieDto modifierCategorieDto)
+        public IActionResult ModiffierCategorie(ModifierCategorieDto modifier)
         {
             Result result = _categorieRepository.Handle(new ModifierCategorie(
-                                                                    modifierCategorieDto.Id, 
-                                                                    modifierCategorieDto.Nom));
+                                                                    modifier.Id, 
+                                                                    modifier.Nom));
             if (result.IsFailure)
                 return BadRequest(result.Error);
             return Ok();

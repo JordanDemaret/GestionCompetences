@@ -11,7 +11,7 @@ namespace GestionCompetences.Infrastructure
         public DbSet<CertificatObtenu> Certificats { get { return Set<CertificatObtenu>(); } }
         public DbSet<CompetenceUtilisateur> Competences { get { return Set<CompetenceUtilisateur>(); } }
         public DbSet<HistoriqueProgression> Historiques { get { return Set<HistoriqueProgression>(); } }
-        public DbSet<NiveauCompetence> Niveaus { get { return Set<NiveauCompetence>(); } }
+        public DbSet<NiveauCompetence> Niveau { get { return Set<NiveauCompetence>(); } }
 
         public CompetenceDBContext(DbContextOptions options) : base(options) { }
 

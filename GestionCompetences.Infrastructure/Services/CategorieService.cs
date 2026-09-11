@@ -4,8 +4,6 @@ using GestionCompetences.Application.Competence.Errors;
 using GestionCompetences.Application.Competence.Repository;
 using GestionCompetences.Application.Query;
 using GestionCompetences.Entitie.Competence;
-using Microsoft.EntityFrameworkCore;
-
 namespace GestionCompetences.Infrastructure.Services
 {
     public class CategorieService : ICategorieRepository
@@ -19,7 +17,14 @@ namespace GestionCompetences.Infrastructure.Services
 
         public Result<IEnumerable<Categorie>> Handle(GetCategorieListe query)
         {
-            return Result<IEnumerable<Categorie>>.Success(_dbContext.Categories.AsEnumerable());
+            try
+            {
+                return Result<IEnumerable<Categorie>>.Success(_dbContext.Categories.AsEnumerable());
+            }
+            catch
+            {
+                return Result<IEnumerable<Categorie>>.Failure(CategorieErrors.CategorieException);
+            }
         }
 
         public Result Handle(AddCategorie command)
@@ -49,8 +54,7 @@ namespace GestionCompetences.Infrastructure.Services
         {
             try
             {
-                Categorie? categorie = _dbContext.Categories.AsNoTracking()
-                                    .SingleOrDefault(c => c.Id == command.Id);
+                Categorie? categorie = _dbContext.Categories.SingleOrDefault(c => c.Id == command.Id);
 
                 if (categorie is null)
                     return Result.Failure(CategorieErrors.CategoriePasTrouver);
