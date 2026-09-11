@@ -55,7 +55,7 @@ namespace GestionCompetences.Infrastructure.Services
                 if (!_passwordHasher.Verify(command.MotDePasse, utilisateur?.MotDePasse))
                     return UtilisateurErrors.UtilisationInfoAuthException;
 
-                return Result<AccessToken>.Success(_tokenGenerator.Generator(utilisateur.Id));
+                return Result<AccessToken>.Success(_tokenGenerator.Generator(utilisateur.Id, utilisateur.Role));
             }
             catch (Exception)
             {

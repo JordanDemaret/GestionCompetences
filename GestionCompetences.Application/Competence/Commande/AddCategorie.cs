@@ -5,5 +5,5 @@ using System.Text;
 
 namespace GestionCompetences.Application.Competence.Commande
 {
-    public record AddCompetence(string Nom) : ICommandDefinition;
+    public record AddCategorie(string Nom) : ICommandDefinition;
 }

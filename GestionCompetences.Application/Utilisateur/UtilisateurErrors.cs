@@ -1,7 +1,4 @@
 ﻿using GestionCompetences.Application.Common.Results;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GestionCompetences.Application.Utilisateur
 {
