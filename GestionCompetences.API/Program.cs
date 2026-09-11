@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using GestionCompetences.Application.Competence.Repository;
 
 const string FrontCorsPolicy = "MonFront";
 
@@ -56,6 +57,7 @@ builder.Services
 builder.Services.AddSingleton<IPasswordHasher, PasswordHasherService>();
 builder.Services.AddSingleton<ITokenGenerator, TokenGenerator>();
 builder.Services.AddScoped<IUtilisateurRepository, UtilisateurService>();
+builder.Services.AddScoped<ICategorieRepository, CategorieService>();
 
 var app = builder.Build();
 

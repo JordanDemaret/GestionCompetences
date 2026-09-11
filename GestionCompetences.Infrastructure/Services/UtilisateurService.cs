@@ -9,13 +9,13 @@ namespace GestionCompetences.Infrastructure.Services
 {
     public class UtilisateurService : IUtilisateurRepository
     {
-        private readonly CompetenceDBContext  _bdContext;
+        private readonly CompetenceDBContext  _dbContext;
         private readonly IPasswordHasher _passwordHasher;
         private readonly ITokenGenerator _tokenGenerator;
 
-        public UtilisateurService(CompetenceDBContext bdContext, IPasswordHasher passwordHasher, ITokenGenerator token)
+        public UtilisateurService(CompetenceDBContext dbContext, IPasswordHasher passwordHasher, ITokenGenerator token)
         {
-            _bdContext = bdContext;
+            _dbContext = dbContext;
             _passwordHasher = passwordHasher;
             _tokenGenerator = token;
         }
@@ -24,7 +24,7 @@ namespace GestionCompetences.Infrastructure.Services
         {
             try
             {
-                if (_bdContext.Utilisateurs.Any(u => u.Email == command.Email))
+                if (_dbContext.Utilisateurs.Any(u => u.Email == command.Email))
                     return UtilisateurErrors.UtilisateurEmailException;
 
                 Utilisateur utilisateur = new Utilisateur()
@@ -33,8 +33,8 @@ namespace GestionCompetences.Infrastructure.Services
                                           Email = command.Email,
                                           MotDePasse = _passwordHasher.Hash(command.MotDePasse)
                                         };
-                _bdContext.Utilisateurs.Add(utilisateur);
-                _bdContext.SaveChanges();
+                _dbContext.Utilisateurs.Add(utilisateur);
+                _dbContext.SaveChanges();
                 return Result<Guid>.Success(utilisateur.Id);
             }
             catch (Exception)
@@ -43,11 +43,11 @@ namespace GestionCompetences.Infrastructure.Services
             }
         }
 
-        public Result<AccessToken> Handle(ConnectionCommande command)
+        public Result<AccessToken> Handle(ConnexionCommande command)
         {
             try
             {
-                Utilisateur? utilisateur = _bdContext.Utilisateurs.AsNoTracking()
+                Utilisateur? utilisateur = _dbContext.Utilisateurs.AsNoTracking()
                                           .SingleOrDefault(u => u.Email == command.Email);
                 if (utilisateur is null)
                     return UtilisateurErrors.UtilisationInfoAuthException;
