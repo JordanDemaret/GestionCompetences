@@ -25,29 +25,5 @@ namespace GestionCompetences.API.Controllers
 
             return Ok(results.Data);
         }
-
-        [HttpPost]
-        [Authorize]
-        public IActionResult AddNiveau(addNiveauCompétencesDto add)
-        {
-            Result result = _niveauCompetence.Handle(new AddNiveauCompetence(add.Nom));
-
-            if (result.IsFailure)
-                return BadRequest(result.Error);
-
-            return Ok();
-        }
-
-        [HttpPut]
-        [Authorize]
-        public IActionResult ModifierNiveau(ModifierNiveauCompetenceDto modifier)
-        {
-            Result result = _niveauCompetence.Handle(new ModifierNiveauCompetence(modifier.Id, modifier.Nom));
-
-            if (result.IsFailure)
-                return BadRequest(result.Error);
-
-            return Ok();
-        }
     }
 }

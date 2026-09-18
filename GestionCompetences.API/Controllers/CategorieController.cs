@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GestionCompetences.API.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/competence")]
     public class CategorieController(ICategorieRepository categorieRepository) : ControllerBase
     {
@@ -25,7 +26,6 @@ namespace GestionCompetences.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
         public IActionResult AddCategorie(AddCategorie add)
         {
             Result result = _categorieRepository.Handle(new AddCategorie(add.Nom));
@@ -35,7 +35,6 @@ namespace GestionCompetences.API.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "Admin")]
         public IActionResult ModiffierCategorie(ModifierCategorieDto modifier)
         {
             Result result = _categorieRepository.Handle(new ModifierCategorie(

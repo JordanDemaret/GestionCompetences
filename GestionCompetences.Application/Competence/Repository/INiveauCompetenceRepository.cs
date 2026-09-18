@@ -7,9 +7,7 @@ using GestionCompetences.Entitie.Competence;
 namespace GestionCompetences.Application.Competence.Repository
 {
     public interface INiveauCompetenceRepository: 
-        IQueryHandler<GetNiveauCompetenceListe, IEnumerable<NiveauCompetence>>,
-        ICommandeHandler<AddNiveauCompetence>,
-        ICommandeHandler<ModifierNiveauCompetence>
+        IQueryHandler<GetNiveauCompetenceListe, IEnumerable<NiveauCompetence>>
     {
     }
 }
