@@ -4,7 +4,6 @@ using GestionCompetences.Application.Common.Results;
 using GestionCompetences.Application.form;
 using GestionCompetences.Application.Utilisateur;
 using GestionCompetences.Application.Utilisateur.Commande;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -28,7 +27,7 @@ namespace GestionCompetences.API.Controllers
         [HttpPost("login")]
         public ActionResult<AccessTokenDto> Connection(ConnectionDto connection)
         {
-            Result<AccessToken> result = _utilisateurRepository.Handle(new ConnectionCommande(connection.Email, connection.MotDePasse));
+            Result<AccessToken> result = _utilisateurRepository.Handle(new ConnexionCommande(connection.Email, connection.MotDePasse));
             if (result.IsFailure)
                 return BadRequest(result.Error);
             return Ok(AccessTokenDto.From(result.Data));

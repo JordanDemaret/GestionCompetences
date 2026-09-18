@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using GestionCompetences.Application.Competence.Repository;
 
 const string FrontCorsPolicy = "MonFront";
 
@@ -56,6 +57,8 @@ builder.Services
 builder.Services.AddSingleton<IPasswordHasher, PasswordHasherService>();
 builder.Services.AddSingleton<ITokenGenerator, TokenGenerator>();
 builder.Services.AddScoped<IUtilisateurRepository, UtilisateurService>();
+builder.Services.AddScoped<ICategorieRepository, CategorieService>();
+builder.Services.AddScoped<INiveauCompetenceRepository, NiveauCompetenceService>();
 
 var app = builder.Build();
 
@@ -63,7 +66,11 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-    app.MapScalarApiReference();
+    app.MapScalarApiReference(op =>
+    {
+        op.WithTitle("GestionCompetences API")
+          .AddPreferredSecuritySchemes("Bearer");
+    });
     
 }
 

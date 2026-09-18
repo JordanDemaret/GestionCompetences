@@ -5,5 +5,5 @@ using System.Text;
 
 namespace GestionCompetences.Application.Utilisateur.Commande
 {
-    public record ConnectionCommande(string Email, string MotDePasse) : ICommandDefinition;
+    public record ConnexionCommande(string Email, string MotDePasse) : ICommandDefinition;
 }
