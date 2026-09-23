@@ -24,13 +24,16 @@ namespace GestionCompetences.Infrastructure.Configurations
                 .IsUnique();
 
             builder.Property(u => u.MotDePasse)
-                .HasColumnType("NVARCHAR(500)");
+                .HasColumnType("NVARCHAR(300)");
 
             builder.Property(u => u.EstActif)
                     .HasDefaultValue(true);
 
             builder.Property(u => u.Role)
                     .HasDefaultValue(Role.Utilisateur);
+
+            builder.Property(u => u.RefreshToken)
+                .HasColumnType("NVARCHAR(200)");
         }
     }
 }

@@ -25,12 +25,22 @@ namespace GestionCompetences.API.Controllers
         }
 
         [HttpPost("login")]
-        public ActionResult<AccessTokenDto> Connection(ConnectionDto connection)
+        public IActionResult Connection(ConnectionDto connection)
         {
-            Result<AccessToken> result = _utilisateurRepository.Handle(new ConnexionCommande(connection.Email, connection.MotDePasse));
+            Result<InfoUtiisateur> result = _utilisateurRepository.Handle(new ConnexionCommande(connection.Email, connection.MotDePasse));
             if (result.IsFailure)
                 return BadRequest(result.Error);
-            return Ok(AccessTokenDto.From(result.Data));
+            InfoUtiisateur info = result.Data;
+            return Ok(new UtilisateurDto(info.Utilisateur.Id,info.Utilisateur.Nom,info.Utilisateur.Prenom, info.Utilisateur.Email, info.Utilisateur.Role.ToString(), info.Token, info.Utilisateur.RefreshToken));
+        }
+
+        [HttpPost("refresh")]
+        public IActionResult RefreshToken(RefreshTokenDto refeshe)
+        {
+            Result<PairToken> result = _utilisateurRepository.Handle(new RefreshTokenCommande(refeshe.Token, refeshe.RefreshToken));
+            if (result.IsFailure)
+                return BadRequest(result.Error);
+            return Ok(result.Data);
         }
     }
 }

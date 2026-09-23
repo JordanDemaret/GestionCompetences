@@ -5,7 +5,6 @@ using GestionCompetences.Application.Competence.Repository;
 using GestionCompetences.Application.Query;
 using GestionCompetences.Entitie.Competence;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GestionCompetences.API.Controllers
@@ -26,7 +25,7 @@ namespace GestionCompetences.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddCategorie(AddCategorie add)
+        public IActionResult AddCategorie(AddCategorieDto add)
         {
             Result result = _categorieRepository.Handle(new AddCategorie(add.Nom));
             if (result.IsFailure)

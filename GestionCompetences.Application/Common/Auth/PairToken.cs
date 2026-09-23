@@ -4,5 +4,5 @@ using System.Text;
 
 namespace GestionCompetences.Application.Common.Auth
 {
-    public sealed record AccessToken(string Value, DateTimeOffset ExpiresAt);
+    public sealed record PairToken(string Token, string RefreshToken);
 }
