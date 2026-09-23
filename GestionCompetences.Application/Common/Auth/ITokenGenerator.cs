@@ -1,9 +1,9 @@
-﻿using GestionCompetences.Domain.Enum;
+﻿using Ent = GestionCompetences.Entitie;
 
 namespace GestionCompetences.Application.Common.Auth
 {
     public interface ITokenGenerator
     {
-        AccessToken Generator(Guid utilisateurId, Role role);
+        string Generator(Ent.Utilisateur utilisateur);
     }
 }

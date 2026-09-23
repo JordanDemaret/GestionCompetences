@@ -67,6 +67,9 @@ namespace GestionCompetences.Infrastructure.Services
                    return Result.Failure(CategorieErrors.CategorieNomExiste);
                 }
 
+                categorie.Nom = command.Nom;
+                _dbContext.SaveChanges();
+
                 return Result.Success();
             }
             catch (Exception)

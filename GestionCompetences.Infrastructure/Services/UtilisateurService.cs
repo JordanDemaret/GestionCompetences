@@ -43,7 +43,7 @@ namespace GestionCompetences.Infrastructure.Services
             }
         }
 
-        public Result<AccessToken> Handle(ConnexionCommande command)
+        public Result<InfoUtiisateur> Handle(ConnexionCommande command)
         {
             try
             {
@@ -55,7 +55,9 @@ namespace GestionCompetences.Infrastructure.Services
                 if (!_passwordHasher.Verify(command.MotDePasse, utilisateur?.MotDePasse))
                     return UtilisateurErrors.UtilisationInfoAuthException;
 
-                return Result<AccessToken>.Success(_tokenGenerator.Generator(utilisateur.Id, utilisateur.Role));
+                string token = _tokenGenerator.Generator(utilisateur!);
+
+                return Result<InfoUtiisateur>.Success(new InfoUtiisateur(token, utilisateur));
             }
             catch (Exception)
             {
