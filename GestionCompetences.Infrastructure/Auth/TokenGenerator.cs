@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 
 
@@ -11,6 +12,7 @@ namespace GestionCompetences.Infrastructure.Auth
 {
     public sealed class TokenGenerator(IOptions<JwtOptions> options, TimeProvider timeProvider) : ITokenGenerator
     {
+
         public string Generator(Utilisateur utilisateur)
         {
             JwtOptions jwt = options.Value;
@@ -33,6 +35,24 @@ namespace GestionCompetences.Infrastructure.Auth
             );
 
             return new JwtSecurityTokenHandler().WriteToken(jwtSecurity);
+        }
+        public string GenerateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+            using var rng = RandomNumberGenerator.Create();
+            rng.GetBytes(randomNumber);
+            return Convert.ToBase64String(randomNumber);
+        }
+
+        public Guid GetUserTokenId(string token)
+        {
+            JwtSecurityToken jwt = new JwtSecurityToken(token);
+            Claim? sid = jwt.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Sid);
+
+            if (sid is null)
+                throw new InvalidOperationException("No Sid found");
+
+            return Guid.Parse(sid.Value);
         }
     }
 }

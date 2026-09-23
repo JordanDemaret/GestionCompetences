@@ -3,7 +3,6 @@ using GestionCompetences.Application.Common.Results;
 using GestionCompetences.Application.Utilisateur;
 using GestionCompetences.Application.Utilisateur.Commande;
 using GestionCompetences.Entitie;
-using Microsoft.EntityFrameworkCore;
 
 namespace GestionCompetences.Infrastructure.Services
 {
@@ -47,8 +46,7 @@ namespace GestionCompetences.Infrastructure.Services
         {
             try
             {
-                Utilisateur? utilisateur = _dbContext.Utilisateurs.AsNoTracking()
-                                          .SingleOrDefault(u => u.Email == command.Email);
+                Utilisateur? utilisateur = _dbContext.Utilisateurs.SingleOrDefault(u => u.Email == command.Email);
                 if (utilisateur is null)
                     return UtilisateurErrors.UtilisationInfoAuthException;
 
@@ -56,12 +54,43 @@ namespace GestionCompetences.Infrastructure.Services
                     return UtilisateurErrors.UtilisationInfoAuthException;
 
                 string token = _tokenGenerator.Generator(utilisateur!);
+                utilisateur!.RefreshToken = _tokenGenerator.GenerateRefreshToken();
+
+                _dbContext.SaveChanges();
 
                 return Result<InfoUtiisateur>.Success(new InfoUtiisateur(token, utilisateur));
             }
             catch (Exception)
             {
                 return UtilisateurErrors.UtilisateurException;
+            }
+        }
+
+        public Result<PairToken> Handle(RefreshTokenCommande command)
+        {
+            try
+            {
+                Guid guid = _tokenGenerator.GetUserTokenId(command.Token);
+
+                Utilisateur? utilisateur = _dbContext.Utilisateurs.SingleOrDefault(u => u.Id == guid);
+
+                if (utilisateur is null)
+                    return Result<PairToken>.Failure(UtilisateurErrors.UtilisateurIntrouvableException);
+                 
+                if (utilisateur.RefreshToken != command.RefreshToken)
+                    return Result<PairToken>.Failure(UtilisateurErrors.UtilisateurRefreshException);
+
+                string token = _tokenGenerator.Generator(utilisateur!);
+                utilisateur!.RefreshToken = _tokenGenerator.GenerateRefreshToken();
+
+                _dbContext.SaveChanges();
+
+                return Result<PairToken>.Success(new PairToken(token, utilisateur.RefreshToken));
+            }
+            catch
+            {
+                return Result<PairToken>.Failure(UtilisateurErrors.UtilisateurException);
+
             }
         }
     }

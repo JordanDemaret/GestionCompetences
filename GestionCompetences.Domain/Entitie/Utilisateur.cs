@@ -1,5 +1,6 @@
 ﻿using GestionCompetences.Domain.Enum;
 using GestionCompetences.Entitie.Competence;
+using System.ComponentModel;
 
 namespace GestionCompetences.Entitie
 {
@@ -13,6 +14,9 @@ namespace GestionCompetences.Entitie
         public string MotDePasse { get; set; } = string.Empty;
         public bool EstActif { get; set; }
         public Role Role { get; set; }
+
+        public string RefreshToken { get; set; } = string.Empty;
+
 
         public ICollection<CompetenceUtilisateur> Competences = new List<CompetenceUtilisateur>();
         public IList<CertificatObtenu> CertificatsObtenus = new List<CertificatObtenu>();

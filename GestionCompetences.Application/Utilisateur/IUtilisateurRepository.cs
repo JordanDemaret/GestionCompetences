@@ -9,7 +9,8 @@ namespace GestionCompetences.Application.Utilisateur
 {
     public interface IUtilisateurRepository :
         ICommandeHandler<IncriptionCommande,Guid>,
-        ICommandeHandler<ConnexionCommande,InfoUtiisateur>
+        ICommandeHandler<ConnexionCommande,InfoUtiisateur>,
+        ICommandeHandler<RefreshTokenCommande,PairToken>
     {
     }
 }

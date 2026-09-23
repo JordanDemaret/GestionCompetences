@@ -31,7 +31,16 @@ namespace GestionCompetences.API.Controllers
             if (result.IsFailure)
                 return BadRequest(result.Error);
             InfoUtiisateur info = result.Data;
-            return Ok(new UtilisateurDto(info.Utilisateur.Id,info.Utilisateur.Nom,info.Utilisateur.Prenom, info.Utilisateur.Email, info.Utilisateur.Role.ToString(), info.Token));
+            return Ok(new UtilisateurDto(info.Utilisateur.Id,info.Utilisateur.Nom,info.Utilisateur.Prenom, info.Utilisateur.Email, info.Utilisateur.Role.ToString(), info.Token, info.Utilisateur.RefreshToken));
+        }
+
+        [HttpPost("refresh")]
+        public IActionResult RefreshToken(RefreshTokenDto refeshe)
+        {
+            Result<PairToken> result = _utilisateurRepository.Handle(new RefreshTokenCommande(refeshe.Token, refeshe.RefreshToken));
+            if (result.IsFailure)
+                return BadRequest(result.Error);
+            return Ok(result.Data);
         }
     }
 }
