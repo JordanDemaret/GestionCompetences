@@ -27,10 +27,10 @@ namespace GestionCompetences.API.Controllers
         [HttpPost]
         public IActionResult AddCategorie(AddCategorieDto add)
         {
-            Result result = _categorieRepository.Handle(new AddCategorie(add.Nom));
+            Result<Categorie> result = _categorieRepository.Handle(new AddCategorie(add.Nom));
             if (result.IsFailure)
                 return BadRequest(result.Error);
-            return Ok();
+            return Ok(result.Data);
         }
 
         [HttpPut]

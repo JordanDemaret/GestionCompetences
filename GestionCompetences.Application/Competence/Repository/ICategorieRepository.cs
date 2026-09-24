@@ -7,7 +7,7 @@ namespace GestionCompetences.Application.Competence.Repository
 {
     public interface ICategorieRepository:
         IQueryHandler<GetCategorieListe,IEnumerable<Categorie>>,
-        ICommandeHandler<AddCategorie>,
+        ICommandeHandler<AddCategorie,Categorie>,
         ICommandeHandler<ModifierCategorie>
     {
     }

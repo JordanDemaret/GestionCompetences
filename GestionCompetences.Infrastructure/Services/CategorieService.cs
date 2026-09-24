@@ -27,13 +27,13 @@ namespace GestionCompetences.Infrastructure.Services
             }
         }
 
-        public Result Handle(AddCategorie command)
+        public Result<Categorie> Handle(AddCategorie command)
         {
             try
             {
                 if (_dbContext.Categories.Any(c => c.Nom == command.Nom))
                 {
-                    return Result.Failure(CategorieErrors.CategorieNomExiste);
+                    return Result<Categorie>.Failure(CategorieErrors.CategorieNomExiste);
                 }
 
                 Categorie categorie = new Categorie()
@@ -42,11 +42,11 @@ namespace GestionCompetences.Infrastructure.Services
                                         };
                 _dbContext.Categories.Add(categorie);
                 _dbContext.SaveChanges();
-                return Result.Success(); 
+                return Result<Categorie>.Success(categorie); 
             }
             catch(Exception)
             {
-               return Result.Failure(CategorieErrors.CategorieException);
+               return Result<Categorie>.Failure(CategorieErrors.CategorieException);
             }
         }
 
