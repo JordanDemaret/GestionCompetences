@@ -1,4 +1,5 @@
-﻿using GestionCompetences.Application.Common.Auth;
+﻿using GestionCompetences.API.Dto;
+using GestionCompetences.Application.Common.Auth;
 using GestionCompetences.Application.Common.Results;
 using GestionCompetences.Application.Utilisateur;
 using GestionCompetences.Application.Utilisateur.Commande;
@@ -42,7 +43,7 @@ namespace GestionCompetences.Infrastructure.Services
             }
         }
 
-        public Result<InfoUtiisateur> Handle(ConnexionCommande command)
+        public Result<UtilisateurDto> Handle(ConnexionCommande command)
         {
             try
             {
@@ -58,7 +59,7 @@ namespace GestionCompetences.Infrastructure.Services
 
                 _dbContext.SaveChanges();
 
-                return Result<InfoUtiisateur>.Success(new InfoUtiisateur(token, utilisateur));
+                return Result<UtilisateurDto>.Success(new UtilisateurDto(utilisateur.Id,utilisateur.Nom,utilisateur.Prenom, utilisateur.Email,utilisateur.Role.ToString(), token, utilisateur.RefreshToken));
             }
             catch (Exception)
             {

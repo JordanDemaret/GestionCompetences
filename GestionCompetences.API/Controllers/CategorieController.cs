@@ -11,7 +11,7 @@ namespace GestionCompetences.API.Controllers
 {
     [ApiController]
     [Authorize]
-    [Route("api/competence")]
+    [Route("api/categorie")]
     public class CategorieController(ICategorieRepository categorieRepository) : ControllerBase
     {
         private readonly ICategorieRepository _categorieRepository = categorieRepository;

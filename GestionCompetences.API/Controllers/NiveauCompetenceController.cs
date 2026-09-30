@@ -1,12 +1,8 @@
 ﻿using GestionCompetences.Application.Competence.Repository;
 using GestionCompetences.Entitie.Competence;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using GestionCompetences.Application.Query;
 using GestionCompetences.Application.Competence.Query;
 using GestionCompetences.Application.Common.Results;
-using GestionCompetences.API.Dto;
-using GestionCompetences.Application.Competence.Commande;
 
 namespace GestionCompetences.API.Controllers
 {

@@ -2,7 +2,7 @@
 {
     public enum Statut
     {
-        Future,
+        AAcquerie,
         EnCours,
         Acquise
 

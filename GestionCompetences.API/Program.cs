@@ -58,6 +58,7 @@ builder.Services.AddSingleton<ITokenGenerator, TokenGenerator>();
 builder.Services.AddScoped<IUtilisateurRepository, UtilisateurService>();
 builder.Services.AddScoped<ICategorieRepository, CategorieService>();
 builder.Services.AddScoped<INiveauCompetenceRepository, NiveauCompetenceService>();
+builder.Services.AddScoped<ICompetenceRepository, CompetenceService>();
 
 var app = builder.Build();
 

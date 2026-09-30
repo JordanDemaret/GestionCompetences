@@ -19,12 +19,6 @@ namespace GestionCompetences.Infrastructure.Configurations
             builder.Property(cu => cu.Note)
                    .HasColumnType("NVARCHAR(250)");
 
-            builder.Property(cu => cu.Lien)
-                   .HasColumnType("NVARCHAR(200)");
-
-            builder.Property(cu => cu.NomGroupe)
-                   .HasColumnType("NVARCHAR(150)");
-
             builder.HasOne(cu => cu.Categorie)
                    .WithMany(ca => ca.CompetencesListe)
                    .HasForeignKey(cu => cu.CategorieId)

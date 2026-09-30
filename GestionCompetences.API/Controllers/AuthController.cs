@@ -6,7 +6,6 @@ using GestionCompetences.Application.Utilisateur;
 using GestionCompetences.Application.Utilisateur.Commande;
 using Microsoft.AspNetCore.Mvc;
 
-
 namespace GestionCompetences.API.Controllers
 {
     [ApiController]
@@ -27,11 +26,10 @@ namespace GestionCompetences.API.Controllers
         [HttpPost("login")]
         public IActionResult Connection(ConnectionDto connection)
         {
-            Result<InfoUtiisateur> result = _utilisateurRepository.Handle(new ConnexionCommande(connection.Email, connection.MotDePasse));
+            Result<UtilisateurDto> result = _utilisateurRepository.Handle(new ConnexionCommande(connection.Email, connection.MotDePasse));
             if (result.IsFailure)
                 return BadRequest(result.Error);
-            InfoUtiisateur info = result.Data;
-            return Ok(new UtilisateurDto(info.Utilisateur.Id,info.Utilisateur.Nom,info.Utilisateur.Prenom, info.Utilisateur.Email, info.Utilisateur.Role.ToString(), info.Token, info.Utilisateur.RefreshToken));
+            return Ok(result.Data);
         }
 
         [HttpPost("refresh")]
