@@ -1,6 +1,6 @@
 ﻿using GestionCompetences.API.Dto;
-using GestionCompetences.Application.Common.Auth;
 using GestionCompetences.Application.Common.Results;
+using GestionCompetences.Application.Dto;
 using GestionCompetences.Application.form;
 using GestionCompetences.Application.Utilisateur;
 using GestionCompetences.Application.Utilisateur.Commande;
@@ -35,7 +35,7 @@ namespace GestionCompetences.API.Controllers
         [HttpPost("refresh")]
         public IActionResult RefreshToken(RefreshTokenDto refeshe)
         {
-            Result<PairToken> result = _utilisateurRepository.Handle(new RefreshTokenCommande(refeshe.Token, refeshe.RefreshToken));
+            Result<PairTokenDto> result = _utilisateurRepository.Handle(new RefreshTokenCommande(refeshe.Token, refeshe.RefreshToken));
             if (result.IsFailure)
                 return BadRequest(result.Error);
             return Ok(result.Data);

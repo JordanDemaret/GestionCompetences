@@ -17,31 +17,18 @@ namespace GestionCompetences.Infrastructure.Services
         } 
         
         
-        public Result<IEnumerable<CompetenceReadDto>> Handle(GetCompetenceUtilisateur query)
+        public Result<IEnumerable<CompetenceDto>> Handle(GetCompetenceUtilisateur query)
         {
             try
             {
-                IEnumerable<CompetenceReadDto> competenceUtilisateurs = _dBContext.Competences
-                                                                                      .Where(c=> c.UtilisateurId == query.IdUtilisateur)
-                                                                                      .Select( c => new CompetenceReadDto
-                                                                                      { 
-                                                                                          Id = c.Id,
-                                                                                          Nom = c.Nom,
-                                                                                          Note = c.Note,
-                                                                                          DateDeDebut = c.DateDeDebut,
-                                                                                          Visibilite = (int)c.Visibilite,
-                                                                                          Statut = (int)c.Statut,
-                                                                                          Position = c.Position,
-                                                                                          CategorieId = c.CategorieId,
-                                                                                          NiveauId = c.NiveauId
-                                                                                      })
-                                                                                      .AsEnumerable();
-
-                return Result<IEnumerable<CompetenceReadDto>>.Success(competenceUtilisateurs);
+                IEnumerable<CompetenceDto> competenceUtilisateurs = _dBContext.Competences
+                                                                        .Where(c => c.UtilisateurId == query.IdUtilisateur)
+                                                                        .Select(CompetenceDto.From).AsEnumerable();
+                return Result<IEnumerable<CompetenceDto>>.Success(competenceUtilisateurs);
             }
             catch
             {
-                return Result<IEnumerable<CompetenceReadDto>>.Failure(Error.Create("error", "error"));
+                return Result<IEnumerable<CompetenceDto>>.Failure(Error.Create("error", "error"));
             }
         }
 

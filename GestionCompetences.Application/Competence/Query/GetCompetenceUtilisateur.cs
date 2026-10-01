@@ -7,7 +7,7 @@ using System.Text;
 
 namespace GestionCompetences.Application.Competence.Query
 {
-    public record GetCompetenceUtilisateur(Guid IdUtilisateur) : IQueryDefinition<IEnumerable<CompetenceReadDto>>
+    public record GetCompetenceUtilisateur(Guid IdUtilisateur) : IQueryDefinition<IEnumerable<CompetenceDto>>
     {
     }
 }

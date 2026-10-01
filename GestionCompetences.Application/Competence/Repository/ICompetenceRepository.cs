@@ -10,7 +10,7 @@ using System.Text;
 namespace GestionCompetences.Application.Competence.Repository
 {
     public interface ICompetenceRepository :
-        IQueryHandler<GetCompetenceUtilisateur,IEnumerable<CompetenceReadDto>>,
+        IQueryHandler<GetCompetenceUtilisateur,IEnumerable<CompetenceDto>>,
         ICommandeHandler<AddCompetence>
     { 
     }

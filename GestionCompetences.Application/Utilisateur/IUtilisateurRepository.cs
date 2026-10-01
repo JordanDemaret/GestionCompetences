@@ -1,6 +1,6 @@
 ﻿using GestionCompetences.API.Dto;
-using GestionCompetences.Application.Common.Auth;
 using GestionCompetences.Application.Common.CommandQuerySeparation;
+using GestionCompetences.Application.Dto;
 using GestionCompetences.Application.Utilisateur.Commande;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace GestionCompetences.Application.Utilisateur
     public interface IUtilisateurRepository :
         ICommandeHandler<IncriptionCommande,Guid>,
         ICommandeHandler<ConnexionCommande,UtilisateurDto>,
-        ICommandeHandler<RefreshTokenCommande,PairToken>
+        ICommandeHandler<RefreshTokenCommande,PairTokenDto>
     {
     }
 }

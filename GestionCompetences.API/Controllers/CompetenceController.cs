@@ -18,7 +18,7 @@ namespace GestionCompetences.API.Controllers
         [HttpGet("{guid:Guid}")]
         public IActionResult GatAllCompetenceUtilisateur(Guid guid)
         {
-            Result<IEnumerable<CompetenceReadDto>> result = _competenceRepository.Handle(new GetCompetenceUtilisateur(guid));
+            Result<IEnumerable<CompetenceDto>> result = _competenceRepository.Handle(new GetCompetenceUtilisateur(guid));
             if (result.IsFailure)
                 return BadRequest(result.Error);
 
