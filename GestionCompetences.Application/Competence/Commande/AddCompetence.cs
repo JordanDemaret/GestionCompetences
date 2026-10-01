@@ -4,5 +4,5 @@ using GestionCompetences.Enum;
 
 namespace GestionCompetences.Application.Competence.Commande
 {
-    public record AddCompetence(string Nom, string? Note, DateTime DateDeDebut, Visibilite Visibilite, Statut Statut, int Position, Guid CategorieId, Guid UtilisateurId, Guid NiveauId) : ICommandDefinition;
+    public record AddCompetence(string Nom, string? Note, DateTime DateDeDebut, Visibilite Visibilite, Statut Statut, Guid CategorieId, Guid UtilisateurId, Guid NiveauId) : ICommandDefinition;
 }

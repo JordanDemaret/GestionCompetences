@@ -4,6 +4,8 @@ using GestionCompetences.Application.Competence.Commande;
 using GestionCompetences.Application.Competence.Query;
 using GestionCompetences.Application.Competence.Repository;
 using GestionCompetences.Entitie.Competence;
+using Microsoft.EntityFrameworkCore;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace GestionCompetences.Infrastructure.Services
 {
@@ -22,6 +24,8 @@ namespace GestionCompetences.Infrastructure.Services
             try
             {
                 IEnumerable<CompetenceDto> competenceUtilisateurs = _dBContext.Competences
+                                                                        .Include(c => c.Categorie)
+                                                                        .Include(c => c.Niveau)
                                                                         .Where(c => c.UtilisateurId == query.IdUtilisateur)
                                                                         .Select(CompetenceDto.From).AsEnumerable();
                 return Result<IEnumerable<CompetenceDto>>.Success(competenceUtilisateurs);
@@ -36,6 +40,9 @@ namespace GestionCompetences.Infrastructure.Services
         {
             try
             {
+                int nexPossition = _dBContext.Competences.Where(c => c.UtilisateurId == command.UtilisateurId).Count() + 1;
+
+
                 CompetenceUtilisateur competence = new CompetenceUtilisateur()
                 {
                     Nom = command.Nom,
@@ -43,7 +50,7 @@ namespace GestionCompetences.Infrastructure.Services
                     DateDeDebut = command.DateDeDebut,
                     Visibilite = command.Visibilite,
                     Statut = command.Statut,
-                    Position = command.Position,
+                    Position = nexPossition,
                     CategorieId = command.CategorieId,
                     UtilisateurId = command.UtilisateurId,
                     NiveauId = command.NiveauId

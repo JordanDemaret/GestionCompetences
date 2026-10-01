@@ -26,9 +26,6 @@ namespace GestionCompetences.API.Dto
         public Guid CategorieId { get; set; }
 
         [Required]
-        public Guid UtilisateurId { get; set; }
-
-        [Required]
         public Guid NiveauId { get; set; }
     }
 }
