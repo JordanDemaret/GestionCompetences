@@ -3,6 +3,7 @@ using GestionCompetences.Application.Common.Results;
 using GestionCompetences.Application.Competence.Commande;
 using GestionCompetences.Application.Competence.Query;
 using GestionCompetences.Application.Competence.Repository;
+using GestionCompetences.Application.Dto;
 using GestionCompetences.Entitie.Competence;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -35,7 +36,7 @@ namespace GestionCompetences.API.Controllers
             if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out var userId))
                 return BadRequest("Identifiant utilisateur invalide.");
 
-            Result result = _competenceRepository.Handle(new AddCompetence(
+            Result<CompetenceDto> result = _competenceRepository.Handle(new AddCompetence(
                 dto.Nom,
                 dto.Note,
                 dto.DateDeDebut,
@@ -48,7 +49,30 @@ namespace GestionCompetences.API.Controllers
             if (result.IsFailure)
                 return BadRequest(result.Error);
 
+            return Ok(result.Data);
+        }
+
+        [HttpPut]
+        public IActionResult ModifierCompetence(ModifierCompetenceDto dto)
+        {
+            Result result = _competenceRepository.Handle(new ModifierCompetence(
+                dto.Id,
+                dto.Nom,
+                dto.Note,
+                dto.DateDeDebut,
+                dto.Visibilite,
+                dto.Statut,
+                dto.CategorieId,
+                dto.NiveauId
+                ));
+
+            if (result.IsFailure)
+                return BadRequest(result.Error);
+
             return Ok();
         }
+
+        
+    
     }
 }

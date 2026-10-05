@@ -11,7 +11,8 @@ namespace GestionCompetences.Application.Competence.Repository
 {
     public interface ICompetenceRepository :
         IQueryHandler<GetCompetenceUtilisateur,IEnumerable<CompetenceDto>>,
-        ICommandeHandler<AddCompetence>
+        ICommandeHandler<AddCompetence,CompetenceDto>,
+        ICommandeHandler<ModifierCompetence>
     { 
     }
 

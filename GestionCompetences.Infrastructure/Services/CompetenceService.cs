@@ -5,7 +5,6 @@ using GestionCompetences.Application.Competence.Query;
 using GestionCompetences.Application.Competence.Repository;
 using GestionCompetences.Entitie.Competence;
 using Microsoft.EntityFrameworkCore;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace GestionCompetences.Infrastructure.Services
 {
@@ -36,7 +35,7 @@ namespace GestionCompetences.Infrastructure.Services
             }
         }
 
-        public Result Handle(AddCompetence command)
+        public Result<CompetenceDto> Handle(AddCompetence command)
         {
             try
             {
@@ -53,20 +52,53 @@ namespace GestionCompetences.Infrastructure.Services
                     Position = nexPossition,
                     CategorieId = command.CategorieId,
                     UtilisateurId = command.UtilisateurId,
-                    NiveauId = command.NiveauId
+                    NiveauId = command.NiveauId,
+                    
                 };
 
                 _dBContext.Competences.Add(competence);
                 _dBContext.SaveChanges();
-                return Result.Success();
+
+                CompetenceUtilisateur createdCompetence = _dBContext.Competences
+                    .Include(c => c.Categorie)
+                    .Include(c => c.Niveau)
+                    .First(c => c.Id == competence.Id);
+
+                return Result<CompetenceDto>.Success(CompetenceDto.From(createdCompetence));
             }
             catch(Exception)
             {
-                return Result.Failure(Error.Create("error", "error"));
+                return Result<CompetenceDto>.Failure(Error.Create("error", "error"));
             }
             
         }
 
-       
+        public Result Handle(ModifierCompetence command)
+        {
+            try
+            {
+                CompetenceUtilisateur? competence = _dBContext.Competences.SingleOrDefault(c => c.Id == command.Id);
+                if(competence is null)
+                    return Result.Failure(Error.Create("error", "error"));
+
+
+                competence.Nom = command.Nom;
+                competence.Note = command.Note;
+                competence.DateDeDebut = competence.DateDeDebut;
+                competence.Visibilite = competence.Visibilite;
+                competence.Statut = competence.Statut;
+                competence.CategorieId = competence.CategorieId;
+                competence.NiveauId = competence.NiveauId;
+
+                _dBContext.SaveChanges();
+                return Result.Success();
+            }
+            catch
+            {
+                return Result.Failure(Error.Create("error", "error"));
+            }
+
+        }
+
     }
 }
