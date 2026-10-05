@@ -61,6 +61,11 @@ builder.Services.AddScoped<INiveauCompetenceRepository, NiveauCompetenceService>
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    await scope.ServiceProvider.GetRequiredService<CompetenceDBContext>().Database.MigrateAsync();
+}
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
