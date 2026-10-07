@@ -72,6 +72,17 @@ namespace GestionCompetences.API.Controllers
             return Ok();
         }
 
+        [HttpDelete("{id:Guid}")]
+        public IActionResult SupprierCompetence(Guid id)
+        {
+
+            Result result = _competenceRepository.Handle(new DeleteCompetence(id));
+
+            if (result.IsFailure)
+                return BadRequest(result.Error);
+
+            return Ok();
+        }
         
     
     }

@@ -1,6 +1,7 @@
 ﻿using GestionCompetences.API.Dto;
 using GestionCompetences.Application.Common.Results;
 using GestionCompetences.Application.Competence.Commande;
+using GestionCompetences.Application.Competence.Errors;
 using GestionCompetences.Application.Competence.Query;
 using GestionCompetences.Application.Competence.Repository;
 using GestionCompetences.Entitie.Competence;
@@ -31,7 +32,7 @@ namespace GestionCompetences.Infrastructure.Services
             }
             catch
             {
-                return Result<IEnumerable<CompetenceDto>>.Failure(Error.Create("error", "error"));
+                return Result<IEnumerable<CompetenceDto>>.Failure(CompetenceErrors.CompetenceException);
             }
         }
 
@@ -40,7 +41,6 @@ namespace GestionCompetences.Infrastructure.Services
             try
             {
                 int nexPossition = _dBContext.Competences.Where(c => c.UtilisateurId == command.UtilisateurId).Count() + 1;
-
 
                 CompetenceUtilisateur competence = new CompetenceUtilisateur()
                 {
@@ -68,7 +68,7 @@ namespace GestionCompetences.Infrastructure.Services
             }
             catch(Exception)
             {
-                return Result<CompetenceDto>.Failure(Error.Create("error", "error"));
+                return Result<CompetenceDto>.Failure(CompetenceErrors.CompetenceException);
             }
             
         }
@@ -79,7 +79,7 @@ namespace GestionCompetences.Infrastructure.Services
             {
                 CompetenceUtilisateur? competence = _dBContext.Competences.SingleOrDefault(c => c.Id == command.Id);
                 if(competence is null)
-                    return Result.Failure(Error.Create("error", "error"));
+                    return Result.Failure(CompetenceErrors.CompetenceNonTrouver);
 
 
                 competence.Nom = command.Nom;
@@ -95,10 +95,28 @@ namespace GestionCompetences.Infrastructure.Services
             }
             catch
             {
-                return Result.Failure(Error.Create("error", "error"));
+                return Result.Failure(CompetenceErrors.CompetenceException);
             }
 
         }
 
+        public Result Handle(DeleteCompetence command)
+        {
+            try
+            {
+                CompetenceUtilisateur? competence = _dBContext.Competences.SingleOrDefault(c => c.Id == command.id);
+
+                if(competence is null)
+                    return Result.Failure(CompetenceErrors.CompetenceNonTrouver);
+
+                _dBContext.Competences.Remove(competence);
+                _dBContext.SaveChanges();
+                return Result.Success();
+            }
+            catch
+            {
+                return Result.Failure(CompetenceErrors.CompetenceException);
+            }
+        }
     }
 }
