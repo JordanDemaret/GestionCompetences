@@ -4,7 +4,6 @@ using GestionCompetences.Application.Competence.Commande;
 using GestionCompetences.Application.Competence.Query;
 using GestionCompetences.Application.Competence.Repository;
 using GestionCompetences.Application.Dto;
-using GestionCompetences.Entitie.Competence;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -75,8 +74,11 @@ namespace GestionCompetences.API.Controllers
         [HttpDelete("{id:Guid}")]
         public IActionResult SupprierCompetence(Guid id)
         {
+            string userIdString = User.FindFirstValue(ClaimTypes.Sid);
+            if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out var userId))
+                return BadRequest("Identifiant utilisateur invalide.");
 
-            Result result = _competenceRepository.Handle(new DeleteCompetence(id));
+            Result result = _competenceRepository.Handle(new DeleteCompetence(id, userId));
 
             if (result.IsFailure)
                 return BadRequest(result.Error);

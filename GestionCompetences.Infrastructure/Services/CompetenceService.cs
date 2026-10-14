@@ -110,6 +110,18 @@ namespace GestionCompetences.Infrastructure.Services
                     return Result.Failure(CompetenceErrors.CompetenceNonTrouver);
 
                 _dBContext.Competences.Remove(competence);
+                int positionSupp = competence.Position;
+
+                List<CompetenceUtilisateur> competences = _dBContext.Competences
+                                                                    .Where(c => c.UtilisateurId == command.UserId 
+                                                                                && c.Position > positionSupp)
+                                                                    .ToList();
+
+                foreach (CompetenceUtilisateur comp in competences)
+                {
+                    comp.Position--;
+                } 
+
                 _dBContext.SaveChanges();
                 return Result.Success();
             }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace GestionCompetences.Application.Competence.Commande
 {
-    public record DeleteCompetence(Guid id):ICommandDefinition
+    public record DeleteCompetence(Guid id, Guid UserId):ICommandDefinition
     {
     }
 }
