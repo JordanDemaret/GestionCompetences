@@ -1,11 +1,10 @@
 ﻿using GestionCompetences.API.Dto;
-using GestionCompetences.Application.Common.Auth;
 using GestionCompetences.Application.Common.Results;
+using GestionCompetences.Application.Dto;
 using GestionCompetences.Application.form;
 using GestionCompetences.Application.Utilisateur;
 using GestionCompetences.Application.Utilisateur.Commande;
 using Microsoft.AspNetCore.Mvc;
-
 
 namespace GestionCompetences.API.Controllers
 {
@@ -27,17 +26,16 @@ namespace GestionCompetences.API.Controllers
         [HttpPost("login")]
         public IActionResult Connection(ConnectionDto connection)
         {
-            Result<InfoUtiisateur> result = _utilisateurRepository.Handle(new ConnexionCommande(connection.Email, connection.MotDePasse));
+            Result<UtilisateurDto> result = _utilisateurRepository.Handle(new ConnexionCommande(connection.Email, connection.MotDePasse));
             if (result.IsFailure)
                 return BadRequest(result.Error);
-            InfoUtiisateur info = result.Data;
-            return Ok(new UtilisateurDto(info.Utilisateur.Id,info.Utilisateur.Nom,info.Utilisateur.Prenom, info.Utilisateur.Email, info.Utilisateur.Role.ToString(), info.Token, info.Utilisateur.RefreshToken));
+            return Ok(result.Data);
         }
 
         [HttpPost("refresh")]
         public IActionResult RefreshToken(RefreshTokenDto refeshe)
         {
-            Result<PairToken> result = _utilisateurRepository.Handle(new RefreshTokenCommande(refeshe.Token, refeshe.RefreshToken));
+            Result<PairTokenDto> result = _utilisateurRepository.Handle(new RefreshTokenCommande(refeshe.Token, refeshe.RefreshToken));
             if (result.IsFailure)
                 return BadRequest(result.Error);
             return Ok(result.Data);

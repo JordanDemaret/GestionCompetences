@@ -88,17 +88,10 @@ namespace GestionCompetences.Infrastructure.Migrations
                     b.Property<DateTime>("DateDeDebut")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Lien")
-                        .HasColumnType("NVARCHAR(200)");
-
                     b.Property<Guid>("NiveauId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Nom")
-                        .IsRequired()
-                        .HasColumnType("NVARCHAR(150)");
-
-                    b.Property<string>("NomGroupe")
                         .IsRequired()
                         .HasColumnType("NVARCHAR(150)");
 
