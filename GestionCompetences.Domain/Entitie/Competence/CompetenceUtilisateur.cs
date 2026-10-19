@@ -9,13 +9,10 @@ namespace GestionCompetences.Entitie.Competence
         public string Nom { get; set; } = string.Empty;
         public Visibilite Visibilite { get; set; }
         public string? Note { get; set; }
-        public string? Lien { get; set; }
+
         public DateTime DateDeDebut { get; set; }
         public Statut Statut { get; set; }
         public int Position { get; set; }
-        public string NomGroupe { get; set; } = string.Empty;
-
-
 
         public Guid CategorieId { get; set; }
         public Categorie Categorie { get; set; }
