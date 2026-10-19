@@ -1,6 +1,4 @@
-﻿using GestionCompetences.Entitie;
-
-namespace GestionCompetences.Domain.Enum
+﻿namespace GestionCompetences.Domain.Enum
 {
     public enum Role
     {
