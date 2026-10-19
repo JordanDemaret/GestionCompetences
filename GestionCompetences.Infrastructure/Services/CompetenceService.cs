@@ -84,11 +84,11 @@ namespace GestionCompetences.Infrastructure.Services
 
                 competence.Nom = command.Nom;
                 competence.Note = command.Note;
-                competence.DateDeDebut = competence.DateDeDebut;
-                competence.Visibilite = competence.Visibilite;
-                competence.Statut = competence.Statut;
-                competence.CategorieId = competence.CategorieId;
-                competence.NiveauId = competence.NiveauId;
+                competence.DateDeDebut = command.DateDeDebut;
+                competence.Visibilite = command.Visibilite;
+                competence.Statut = command.Statut;
+                competence.CategorieId = command.CategorieId;
+                competence.NiveauId = command.NiveauId;
 
                 _dBContext.SaveChanges();
                 return Result.Success();
