@@ -18,10 +18,14 @@ namespace GestionCompetences.API.Controllers
 
         private readonly ICompetenceRepository _competenceRepository = competenceRepository;
 
-        [HttpGet("{guid:Guid}")]
-        public IActionResult GetAllCompetenceUtilisateur(Guid guid)
+        [HttpGet]
+        public IActionResult GetAllCompetenceUtilisateur()
         {
-            Result<IEnumerable<CompetenceDto>> result = _competenceRepository.Handle(new GetCompetenceUtilisateur(guid));
+            string? userIdString = User.FindFirstValue(ClaimTypes.Sid);
+            if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out var userId))
+                return BadRequest("Identifiant utilisateur invalide.");
+
+            Result<IEnumerable<CompetenceDto>> result = _competenceRepository.Handle(new GetCompetenceUtilisateur(userId));
             if (result.IsFailure)
                 return BadRequest(result.Error);
 
