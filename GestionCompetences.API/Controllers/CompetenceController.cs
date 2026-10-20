@@ -19,7 +19,7 @@ namespace GestionCompetences.API.Controllers
         private readonly ICompetenceRepository _competenceRepository = competenceRepository;
 
         [HttpGet("{guid:Guid}")]
-        public IActionResult GatAllCompetenceUtilisateur(Guid guid)
+        public IActionResult GetAllCompetenceUtilisateur(Guid guid)
         {
             Result<IEnumerable<CompetenceDto>> result = _competenceRepository.Handle(new GetCompetenceUtilisateur(guid));
             if (result.IsFailure)
@@ -31,7 +31,7 @@ namespace GestionCompetences.API.Controllers
         [HttpPost]
         public IActionResult AjouterUneCompetence(AddCompetenceDto dto)
         {
-            string userIdString = User.FindFirstValue(ClaimTypes.Sid);
+            string? userIdString = User.FindFirstValue(ClaimTypes.Sid);
             if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out var userId))
                 return BadRequest("Identifiant utilisateur invalide.");
 
@@ -41,8 +41,8 @@ namespace GestionCompetences.API.Controllers
                 dto.DateDeDebut,
                 dto.Visibilite,
                 dto.Statut,
-                dto.CategorieId,
                 userId,
+                dto.CategorieId,
                 dto.NiveauId));
 
             if (result.IsFailure)
@@ -54,6 +54,10 @@ namespace GestionCompetences.API.Controllers
         [HttpPut]
         public IActionResult ModifierCompetence(ModifierCompetenceDto dto)
         {
+            string? userIdString = User.FindFirstValue(ClaimTypes.Sid);
+            if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out var userId))
+                return BadRequest("Identifiant utilisateur invalide.");
+
             Result result = _competenceRepository.Handle(new ModifierCompetence(
                 dto.Id,
                 dto.Nom,
@@ -61,6 +65,7 @@ namespace GestionCompetences.API.Controllers
                 dto.DateDeDebut,
                 dto.Visibilite,
                 dto.Statut,
+                userId,
                 dto.CategorieId,
                 dto.NiveauId
                 ));
@@ -72,9 +77,9 @@ namespace GestionCompetences.API.Controllers
         }
 
         [HttpDelete("{id:Guid}")]
-        public IActionResult SupprierCompetence(Guid id)
+        public IActionResult SupprimerCompetence(Guid id)
         {
-            string userIdString = User.FindFirstValue(ClaimTypes.Sid);
+            string? userIdString = User.FindFirstValue(ClaimTypes.Sid);
             if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out var userId))
                 return BadRequest("Identifiant utilisateur invalide.");
 

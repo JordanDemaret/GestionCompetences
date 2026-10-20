@@ -77,7 +77,7 @@ namespace GestionCompetences.Infrastructure.Services
         {
             try
             {
-                CompetenceUtilisateur? competence = _dBContext.Competences.SingleOrDefault(c => c.Id == command.Id);
+                CompetenceUtilisateur? competence = _dBContext.Competences.SingleOrDefault(c => c.Id == command.Id && c.UtilisateurId == command.UtilisateurId);
                 if(competence is null)
                     return Result.Failure(CompetenceErrors.CompetenceNonTrouver);
 
@@ -104,7 +104,7 @@ namespace GestionCompetences.Infrastructure.Services
         {
             try
             {
-                CompetenceUtilisateur? competence = _dBContext.Competences.SingleOrDefault(c => c.Id == command.id);
+                CompetenceUtilisateur? competence = _dBContext.Competences.SingleOrDefault(c => c.Id == command.id && c.UtilisateurId == command.UserId);
 
                 if(competence is null)
                     return Result.Failure(CompetenceErrors.CompetenceNonTrouver);

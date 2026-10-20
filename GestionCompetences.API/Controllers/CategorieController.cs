@@ -26,7 +26,7 @@ namespace GestionCompetences.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = nameof(Role.Admin))]
         public IActionResult AddCategorie(AddCategorieDto add)
         {
             Result<Categorie> result = _categorieRepository.Handle(new AddCategorie(add.Nom));
@@ -36,8 +36,8 @@ namespace GestionCompetences.API.Controllers
         }
 
         [HttpPut]
-        [Authorize(Roles = "Admin")]
-        public IActionResult ModiffierCategorie(ModifierCategorieDto modifier)
+        [Authorize(Roles = nameof(Role.Admin))]
+        public IActionResult ModifierCategorie(ModifierCategorieDto modifier)
         {
             Result result = _categorieRepository.Handle(new ModifierCategorie(
                                                                     modifier.Id, 
