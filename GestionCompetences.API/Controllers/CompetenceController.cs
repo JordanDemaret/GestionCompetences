@@ -11,6 +11,7 @@ using System.Security.Claims;
 namespace GestionCompetences.API.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/competence")]
     public class CompetenceController(ICompetenceRepository competenceRepository) : ControllerBase
     {
@@ -28,7 +29,6 @@ namespace GestionCompetences.API.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public IActionResult AjouterUneCompetence(AddCompetenceDto dto)
         {
             string userIdString = User.FindFirstValue(ClaimTypes.Sid);

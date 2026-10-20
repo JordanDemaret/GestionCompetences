@@ -3,6 +3,7 @@ using GestionCompetences.Application.Common.Results;
 using GestionCompetences.Application.Competence.Commande;
 using GestionCompetences.Application.Competence.Repository;
 using GestionCompetences.Application.Query;
+using GestionCompetences.Domain.Enum;
 using GestionCompetences.Entitie.Competence;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,7 @@ namespace GestionCompetences.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public IActionResult AddCategorie(AddCategorieDto add)
         {
             Result<Categorie> result = _categorieRepository.Handle(new AddCategorie(add.Nom));
@@ -34,6 +36,7 @@ namespace GestionCompetences.API.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = "Admin")]
         public IActionResult ModiffierCategorie(ModifierCategorieDto modifier)
         {
             Result result = _categorieRepository.Handle(new ModifierCategorie(
