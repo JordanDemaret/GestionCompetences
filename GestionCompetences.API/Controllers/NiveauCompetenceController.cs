@@ -3,10 +3,12 @@ using GestionCompetences.Entitie.Competence;
 using Microsoft.AspNetCore.Mvc;
 using GestionCompetences.Application.Competence.Query;
 using GestionCompetences.Application.Common.Results;
+using Microsoft.AspNetCore.Authorization;
 
 namespace GestionCompetences.API.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/niveau")]
     public class NiveauCompetenceController(INiveauCompetenceRepository niveauCompetence): ControllerBase
     {
