@@ -5,6 +5,7 @@ using GestionCompetences.Application.Competence.Query;
 using GestionCompetences.Application.Competence.Repository;
 using GestionCompetences.Application.Dto;
 using GestionCompetences.Entitie.Competence;
+using Microsoft.EntityFrameworkCore;
 
 namespace GestionCompetences.Infrastructure.Services
 {
@@ -18,7 +19,8 @@ namespace GestionCompetences.Infrastructure.Services
             {
                 IEnumerable<CertificatDto> certificats = _dBContext.Certificats
                                             .Where(c => c.UtilisateurId == query.UtilisateurId)
-                                            .Select(CertificatDto.From);
+                                            .Include(c => c.CompetencesList)
+                                            .Select(CertificatDto.From).ToList();
                 return Result<IEnumerable<CertificatDto>>.Success(certificats);
 
             }

@@ -27,7 +27,7 @@ namespace GestionCompetences.Infrastructure.Services
                                                                         .Include(c => c.Categorie)
                                                                         .Include(c => c.Niveau)
                                                                         .Where(c => c.UtilisateurId == query.IdUtilisateur)
-                                                                        .Select(CompetenceDto.From).AsEnumerable();
+                                                                        .Select(CompetenceDto.From).ToList();
                 return Result<IEnumerable<CompetenceDto>>.Success(competenceUtilisateurs);
             }
             catch

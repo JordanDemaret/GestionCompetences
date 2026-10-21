@@ -30,7 +30,7 @@ namespace GestionCompetences.Infrastructure.Configurations
                    .HasForeignKey(cu => cu.UtilisateurId);
 
             builder.HasOne(cu => cu.CertificatObtenu)
-                   .WithMany(cer => cer.CompetencesLsite)
+                   .WithMany(cer => cer.CompetencesList)
                    .HasForeignKey(cu => cu.CertificatId)
                    .IsRequired(false)
                    .OnDelete(DeleteBehavior.Restrict);

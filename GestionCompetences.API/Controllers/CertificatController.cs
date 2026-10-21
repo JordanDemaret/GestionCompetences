@@ -20,8 +20,8 @@ namespace GestionCompetences.API.Controllers
         [HttpGet]
         public IActionResult GetCertificat()
         {
-            string? utilisasteurIdString = User.FindFirstValue(ClaimTypes.Sid);
-            if (string.IsNullOrEmpty(utilisasteurIdString) || !Guid.TryParse(utilisasteurIdString, out var utilisateurId))
+            string? utilisateurIdString = User.FindFirstValue(ClaimTypes.Sid);
+            if (string.IsNullOrEmpty(utilisateurIdString) || !Guid.TryParse(utilisateurIdString, out var utilisateurId))
                 return BadRequest("Identifiant utilisateur invalide.");
 
             Result<IEnumerable<CertificatDto>> result = _certificatRepository.Handle(new GetCertificatListe(utilisateurId));
@@ -34,8 +34,8 @@ namespace GestionCompetences.API.Controllers
         public IActionResult AjouterCertificat(AddCertificatDto dto)
         {
 
-            string? utilisasteurIdString = User.FindFirstValue(ClaimTypes.Sid);
-            if (string.IsNullOrEmpty(utilisasteurIdString) || !Guid.TryParse(utilisasteurIdString, out var utilisateurId))
+            string? utilisateurIdString = User.FindFirstValue(ClaimTypes.Sid);
+            if (string.IsNullOrEmpty(utilisateurIdString) || !Guid.TryParse(utilisateurIdString, out var utilisateurId))
                 return BadRequest("Identifiant utilisateur invalide.");
 
             Result<CertificatDto> result = _certificatRepository.Handle(new AddCertificat(
@@ -53,8 +53,8 @@ namespace GestionCompetences.API.Controllers
         [HttpPut]
         public IActionResult ModifierCertificat(ModifierCertificatDto dto)
         {
-            string? utilisasteurIdString = User.FindFirstValue(ClaimTypes.Sid);
-            if (string.IsNullOrEmpty(utilisasteurIdString) || !Guid.TryParse(utilisasteurIdString, out var utilisateurId))
+            string? utilisateurIdString = User.FindFirstValue(ClaimTypes.Sid);
+            if (string.IsNullOrEmpty(utilisateurIdString) || !Guid.TryParse(utilisateurIdString, out var utilisateurId))
                 return BadRequest("Identifiant utilisateur invalide.");
 
             Result result = _certificatRepository.Handle(new ModifierCertificat(
@@ -71,10 +71,10 @@ namespace GestionCompetences.API.Controllers
         }
 
         [HttpDelete("{id:Guid}")]
-        public IActionResult SupperssionCertificat(Guid id)
+        public IActionResult SuppressionCertificat(Guid id)
         {
-            string? utilisasteurIdString = User.FindFirstValue(ClaimTypes.Sid);
-            if (string.IsNullOrEmpty(utilisasteurIdString) || !Guid.TryParse(utilisasteurIdString, out var utilisateurId))
+            string? utilisateurIdString = User.FindFirstValue(ClaimTypes.Sid);
+            if (string.IsNullOrEmpty(utilisateurIdString) || !Guid.TryParse(utilisateurIdString, out var utilisateurId))
                 return BadRequest("Identifiant utilisateur invalide.");
 
 

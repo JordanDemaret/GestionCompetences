@@ -11,7 +11,7 @@
         public Guid UtilisateurId { get; set; }
         public Utilisateur Utilisateur { get; set; } = default!;
 
-        public ICollection<CompetenceUtilisateur> CompetencesLsite { get; set; } = new List<CompetenceUtilisateur>();
+        public ICollection<CompetenceUtilisateur> CompetencesList { get; set; } = new List<CompetenceUtilisateur>();
 
     }
 }
