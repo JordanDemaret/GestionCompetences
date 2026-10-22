@@ -81,8 +81,9 @@ namespace GestionCompetences.Infrastructure.Services
         {
             try
             {
-                CertificatObtenu? certificate = _dBContext.Certificats.SingleOrDefault(c =>
-                                                                       c.Id == command.Id && c.UtilisateurId == command.UtilisateurId);
+                CertificatObtenu? certificate = _dBContext.Certificats
+                                                        .Include(c => c.CompetencesList)
+                                                        .SingleOrDefault(c =>c.Id == command.Id && c.UtilisateurId == command.UtilisateurId);
 
                 if (certificate is null)
                     return Result.Failure(CertificatErrors.CertificatNonTrouver);

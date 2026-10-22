@@ -26,6 +26,7 @@ namespace GestionCompetences.Infrastructure.Services
                 IEnumerable<CompetenceDto> competenceUtilisateurs = _dBContext.Competences
                                                                         .Include(c => c.Categorie)
                                                                         .Include(c => c.Niveau)
+                                                                        .Include(c => c.CertificatObtenu)
                                                                         .Where(c => c.UtilisateurId == query.IdUtilisateur)
                                                                         .Select(CompetenceDto.From).ToList();
                 return Result<IEnumerable<CompetenceDto>>.Success(competenceUtilisateurs);
@@ -53,6 +54,7 @@ namespace GestionCompetences.Infrastructure.Services
                     CategorieId = command.CategorieId,
                     UtilisateurId = command.UtilisateurId,
                     NiveauId = command.NiveauId,
+                    CertificatId = command.CertificatId
                     
                 };
 
@@ -62,6 +64,7 @@ namespace GestionCompetences.Infrastructure.Services
                 CompetenceUtilisateur createdCompetence = _dBContext.Competences
                     .Include(c => c.Categorie)
                     .Include(c => c.Niveau)
+                    .Include(c => c.CertificatObtenu)
                     .First(c => c.Id == competence.Id);
 
                 return Result<CompetenceDto>.Success(CompetenceDto.From(createdCompetence));
@@ -89,6 +92,7 @@ namespace GestionCompetences.Infrastructure.Services
                 competence.Statut = command.Statut;
                 competence.CategorieId = command.CategorieId;
                 competence.NiveauId = command.NiveauId;
+                competence.CertificatId = command.CertificatId;
 
                 _dBContext.SaveChanges();
                 return Result.Success();

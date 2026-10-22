@@ -34,5 +34,6 @@ namespace GestionCompetences.Application.Dto
 
         [Required]
         public Guid NiveauId { get; set; }
+        public Guid? CertificatId { get; set; }
     }
 }

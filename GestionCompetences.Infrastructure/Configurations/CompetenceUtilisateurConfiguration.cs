@@ -33,7 +33,7 @@ namespace GestionCompetences.Infrastructure.Configurations
                    .WithMany(cer => cer.CompetencesList)
                    .HasForeignKey(cu => cu.CertificatId)
                    .IsRequired(false)
-                   .OnDelete(DeleteBehavior.Restrict);
+                   .OnDelete(DeleteBehavior.ClientSetNull);
 
             builder.HasOne(cu => cu.Niveau)
                    .WithMany(ca => ca.CompetenceListe)

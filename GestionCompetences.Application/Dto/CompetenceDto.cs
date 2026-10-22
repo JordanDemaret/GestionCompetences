@@ -6,13 +6,13 @@ namespace GestionCompetences.API.Dto
 {
     public record CompetenceDto (Guid Id, string Nom, string? Note,DateTime DateDeDebut,Visibilite Visibilite,
                                     Statut Statut, int Position, Guid CategorieId,string CategorieNom,
-                                    Guid  NiveauId, string NiveauLibelle)
+                                    Guid  NiveauId, string NiveauLibelle, string NomCertificat)
     {
 
         public static CompetenceDto From(CompetenceUtilisateur competence)
             => new(competence.Id, competence.Nom, competence.Note, competence.DateDeDebut,
                     competence.Visibilite, competence.Statut, competence.Position,
                     competence.CategorieId,competence.Categorie.Nom,
-                    competence.NiveauId, competence.Niveau.Label);
+                    competence.NiveauId, competence.Niveau.Label, competence.CertificatObtenu?.NomCertificat ?? "");
     }
 }
