@@ -261,9 +261,8 @@ namespace GestionCompetences.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("GestionCompetences.Entitie.Competence.CertificatObtenu", "CertificatObtenu")
-                        .WithMany("CompetencesLsite")
-                        .HasForeignKey("CertificatId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .WithMany("CompetencesList")
+                        .HasForeignKey("CertificatId");
 
                     b.HasOne("GestionCompetences.Entitie.Competence.NiveauCompetence", "Niveau")
                         .WithMany("CompetenceListe")
@@ -319,7 +318,7 @@ namespace GestionCompetences.Infrastructure.Migrations
 
             modelBuilder.Entity("GestionCompetences.Entitie.Competence.CertificatObtenu", b =>
                 {
-                    b.Navigation("CompetencesLsite");
+                    b.Navigation("CompetencesList");
                 });
 
             modelBuilder.Entity("GestionCompetences.Entitie.Competence.CompetenceUtilisateur", b =>

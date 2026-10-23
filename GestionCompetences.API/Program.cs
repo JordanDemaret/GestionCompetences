@@ -58,6 +58,7 @@ builder.Services.AddScoped<IUtilisateurRepository, UtilisateurService>();
 builder.Services.AddScoped<ICategorieRepository, CategorieService>();
 builder.Services.AddScoped<INiveauCompetenceRepository, NiveauCompetenceService>();
 builder.Services.AddScoped<ICompetenceRepository, CompetenceService>();
+builder.Services.AddScoped<ICertificatRepository, CertificatService>();
 
 var app = builder.Build();
 

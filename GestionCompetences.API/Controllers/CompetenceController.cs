@@ -47,7 +47,8 @@ namespace GestionCompetences.API.Controllers
                 dto.Statut,
                 userId,
                 dto.CategorieId,
-                dto.NiveauId));
+                dto.NiveauId,
+                dto.CertificatId));
 
             if (result.IsFailure)
                 return BadRequest(result.Error);
@@ -71,7 +72,8 @@ namespace GestionCompetences.API.Controllers
                 dto.Statut,
                 userId,
                 dto.CategorieId,
-                dto.NiveauId
+                dto.NiveauId,
+                dto.CertificatId
                 ));
 
             if (result.IsFailure)
