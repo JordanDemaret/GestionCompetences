@@ -96,7 +96,20 @@ namespace GestionCompetences.API.Controllers
 
             return Ok();
         }
-        
-    
+
+        [HttpPut("repositionner")]
+        public IActionResult RepositionnerCompetences([FromBody] MisAJourPossitionDto dto)
+        {
+            string? userIdString = User.FindFirstValue(ClaimTypes.Sid);
+            if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out var userId))
+                return BadRequest("Identifiant utilisateur invalide.");
+
+            Result result = _competenceRepository.Handle(new MisAJourPossition(dto.IdCompetences, userId));
+
+            if (result.IsFailure)
+                return BadRequest(result.Error);
+
+            return Ok();
+        }
     }
 }

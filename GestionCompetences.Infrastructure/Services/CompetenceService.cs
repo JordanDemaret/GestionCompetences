@@ -28,7 +28,8 @@ namespace GestionCompetences.Infrastructure.Services
                                                                         .Include(c => c.Niveau)
                                                                         .Include(c => c.CertificatObtenu)
                                                                         .Where(c => c.UtilisateurId == query.IdUtilisateur)
-                                                                        .Select(CompetenceDto.From).ToList();
+                                                                        .Select(CompetenceDto.From)
+                                                                        .OrderBy(p => p.Position).ToList();
                 return Result<IEnumerable<CompetenceDto>>.Success(competenceUtilisateurs);
             }
             catch
@@ -128,6 +129,36 @@ namespace GestionCompetences.Infrastructure.Services
 
                 _dBContext.SaveChanges();
                 return Result.Success();
+            }
+            catch
+            {
+                return Result.Failure(CompetenceErrors.CompetenceException);
+            }
+        }
+
+        public Result Handle(MisAJourPossition command)
+        {
+            try
+            {
+                List<CompetenceUtilisateur> competences = _dBContext.Competences.Where(c => c.UtilisateurId == command.IdUtilisateur).ToList();
+                int possition = 1;
+                foreach(string item in command.IdCompetences)
+                {
+                    Guid.TryParse(item, out Guid parsedId);
+                    CompetenceUtilisateur? com = competences.FirstOrDefault(c => c.Id == parsedId);
+                    if (com != null)
+                    {
+                        com.Position = possition++;
+                    }
+                    else
+                    {
+                        return Result.Failure(CompetenceErrors.CompetenceException);
+                    }
+                }
+
+                _dBContext.SaveChanges();
+                return Result.Success();
+
             }
             catch
             {
