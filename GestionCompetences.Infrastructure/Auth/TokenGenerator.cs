@@ -3,6 +3,7 @@ using GestionCompetences.Entitie;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using System.Reflection.Metadata;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
@@ -10,14 +11,14 @@ using System.Text;
 
 namespace GestionCompetences.Infrastructure.Auth
 {
-    public sealed class TokenGenerator(IOptions<JwtOptions> options, TimeProvider timeProvider) : ITokenGenerator
+    public sealed class TokenGenerator(IOptions<JwtOptions> options, TokenValidationParameters tokenValidationParameters) : ITokenGenerator
     {
 
         public string Generator(Utilisateur utilisateur)
         {
             JwtOptions jwt = options.Value;
             
-            byte[] secretKey = Encoding.Default.GetBytes(jwt.Key);
+            byte[] secretKey = Encoding.UTF8.GetBytes(jwt.Key);
             SymmetricSecurityKey symmetricKey = new SymmetricSecurityKey(secretKey);
 
             List<Claim> claims = new List<Claim>
@@ -46,8 +47,15 @@ namespace GestionCompetences.Infrastructure.Auth
 
         public Guid GetUserTokenId(string token)
         {
-            JwtSecurityToken jwt = new JwtSecurityToken(token);
-            Claim? sid = jwt.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Sid);
+            var handler = new JwtSecurityTokenHandler();
+
+            var para = tokenValidationParameters.Clone();
+            para.ValidateLifetime = false;
+
+            handler.ValidateToken(token, para, out SecurityToken validatedToken);
+            JwtSecurityToken? jwt = validatedToken as JwtSecurityToken;
+
+            Claim? sid = jwt?.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Sid);
 
             if (sid is null)
                 throw new InvalidOperationException("No Sid found");

@@ -1,4 +1,5 @@
 ﻿using GestionCompetences.API.Dto;
+using GestionCompetences.API.Extention;
 using GestionCompetences.Application.Common.Results;
 using GestionCompetences.Application.Competence.Commande;
 using GestionCompetences.Application.Competence.Query;
@@ -6,7 +7,6 @@ using GestionCompetences.Application.Competence.Repository;
 using GestionCompetences.Application.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace GestionCompetences.API.Controllers
 {
@@ -21,11 +21,12 @@ namespace GestionCompetences.API.Controllers
         [HttpGet]
         public IActionResult GetAllCompetenceUtilisateur()
         {
-            string? userIdString = User.FindFirstValue(ClaimTypes.Sid);
-            if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out var userId))
+
+            Guid? userId = User.GetUserId();
+            if (userId is null)
                 return BadRequest("Identifiant utilisateur invalide.");
 
-            Result<IEnumerable<CompetenceDto>> result = _competenceRepository.Handle(new GetCompetenceUtilisateur(userId));
+            Result<IEnumerable<CompetenceDto>> result = _competenceRepository.Handle(new GetCompetenceUtilisateur(userId.Value));
             if (result.IsFailure)
                 return BadRequest(result.Error);
 
@@ -35,8 +36,9 @@ namespace GestionCompetences.API.Controllers
         [HttpPost]
         public IActionResult AjouterUneCompetence(AddCompetenceDto dto)
         {
-            string? userIdString = User.FindFirstValue(ClaimTypes.Sid);
-            if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out var userId))
+
+            Guid? userId = User.GetUserId();
+            if (userId is null)
                 return BadRequest("Identifiant utilisateur invalide.");
 
             Result<CompetenceDto> result = _competenceRepository.Handle(new AddCompetence(
@@ -45,7 +47,7 @@ namespace GestionCompetences.API.Controllers
                 dto.DateDeDebut,
                 dto.Visibilite,
                 dto.Statut,
-                userId,
+                userId.Value,
                 dto.CategorieId,
                 dto.NiveauId,
                 dto.CertificatId));
@@ -59,8 +61,9 @@ namespace GestionCompetences.API.Controllers
         [HttpPut]
         public IActionResult ModifierCompetence(ModifierCompetenceDto dto)
         {
-            string? userIdString = User.FindFirstValue(ClaimTypes.Sid);
-            if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out var userId))
+
+            Guid? userId = User.GetUserId();
+            if (userId is null)
                 return BadRequest("Identifiant utilisateur invalide.");
 
             Result result = _competenceRepository.Handle(new ModifierCompetence(
@@ -70,7 +73,7 @@ namespace GestionCompetences.API.Controllers
                 dto.DateDeDebut,
                 dto.Visibilite,
                 dto.Statut,
-                userId,
+                userId.Value,
                 dto.CategorieId,
                 dto.NiveauId,
                 dto.CertificatId
@@ -85,11 +88,12 @@ namespace GestionCompetences.API.Controllers
         [HttpDelete("{id:Guid}")]
         public IActionResult SupprimerCompetence(Guid id)
         {
-            string? userIdString = User.FindFirstValue(ClaimTypes.Sid);
-            if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out var userId))
+
+            Guid? userId = User.GetUserId();
+            if (userId is null)
                 return BadRequest("Identifiant utilisateur invalide.");
 
-            Result result = _competenceRepository.Handle(new DeleteCompetence(id, userId));
+            Result result = _competenceRepository.Handle(new DeleteCompetence(id, userId.Value));
 
             if (result.IsFailure)
                 return BadRequest(result.Error);
@@ -98,13 +102,14 @@ namespace GestionCompetences.API.Controllers
         }
 
         [HttpPut("repositionner")]
-        public IActionResult RepositionnerCompetences([FromBody] MisAJourPossitionDto dto)
+        public IActionResult RepositionnerCompetences([FromBody] MiseAJourPossitionDto dto)
         {
-            string? userIdString = User.FindFirstValue(ClaimTypes.Sid);
-            if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out var userId))
+
+            Guid? userId = User.GetUserId();
+            if (userId is null)
                 return BadRequest("Identifiant utilisateur invalide.");
 
-            Result result = _competenceRepository.Handle(new MisAJourPossition(dto.IdCompetences, userId));
+            Result result = _competenceRepository.Handle(new MiseAJourPossition(dto.IdCompetences, userId.Value));
 
             if (result.IsFailure)
                 return BadRequest(result.Error);

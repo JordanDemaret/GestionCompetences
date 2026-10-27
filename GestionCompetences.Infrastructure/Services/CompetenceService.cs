@@ -136,16 +136,15 @@ namespace GestionCompetences.Infrastructure.Services
             }
         }
 
-        public Result Handle(MisAJourPossition command)
+        public Result Handle(MiseAJourPossition command)
         {
             try
             {
                 List<CompetenceUtilisateur> competences = _dBContext.Competences.Where(c => c.UtilisateurId == command.IdUtilisateur).ToList();
                 int possition = 1;
-                foreach(string item in command.IdCompetences)
+                foreach(Guid item in command.IdCompetences)
                 {
-                    Guid.TryParse(item, out Guid parsedId);
-                    CompetenceUtilisateur? com = competences.FirstOrDefault(c => c.Id == parsedId);
+                    CompetenceUtilisateur? com = competences.FirstOrDefault(c => c.Id == item);
                     if (com != null)
                     {
                         com.Position = possition++;

@@ -2,7 +2,7 @@
 
 namespace GestionCompetences.Application.Competence.Commande
 {
-    public record MisAJourPossition(string[] IdCompetences, Guid IdUtilisateur) : ICommandDefinition
+    public record MiseAJourPossition(Guid[] IdCompetences, Guid IdUtilisateur) : ICommandDefinition
     {
     }
 }

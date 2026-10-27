@@ -10,7 +10,7 @@ namespace GestionCompetences.Application.Competence.Repository
         ICommandeHandler<AddCompetence,CompetenceDto>,
         ICommandeHandler<ModifierCompetence>,
         ICommandeHandler<DeleteCompetence>,
-        ICommandeHandler<MisAJourPossition>
+        ICommandeHandler<MiseAJourPossition>
     { 
     }
 
