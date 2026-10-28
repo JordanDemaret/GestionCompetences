@@ -1,4 +1,4 @@
-﻿using GestionCompetences.Application.Common.Results;
+using GestionCompetences.Application.Common.Results;
 using GestionCompetences.Application.Competence.Commande;
 using GestionCompetences.Application.Competence.Errors;
 using GestionCompetences.Application.Competence.Query;
@@ -9,10 +9,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GestionCompetences.Infrastructure.Services
 {
+    /// <summary>
+    /// Service d'infrastructure implémentant le référentiel des certificats obtenus par les utilisateurs.
+    /// </summary>
     public class CertificatService(CompetenceDBContext dBContext) : ICertificatRepository
     {
         private readonly CompetenceDBContext _dBContext = dBContext;
 
+        /// <summary>
+        /// Récupère la liste de tous les certificats appartenant à un utilisateur avec le compte de leurs compétences associées.
+        /// </summary>
+        /// <param name="query">La requête contenant l'identifiant de l'utilisateur.</param>
+        /// <returns>La liste des certificats sous forme de DTO ou une erreur.</returns>
         public Result<IEnumerable<CertificatDto>> Handle(GetCertificatListe query)
         {
             try
@@ -30,6 +38,11 @@ namespace GestionCompetences.Infrastructure.Services
             }
         }
 
+        /// <summary>
+        /// Ajoute et persiste un nouveau certificat pour l'utilisateur spécifié.
+        /// </summary>
+        /// <param name="command">La commande contenant les informations du certificat à enregistrer.</param>
+        /// <returns>Le certificat créé sous forme de DTO ou une erreur.</returns>
         public Result<CertificatDto> Handle(AddCertificat command)
         {
             try
@@ -53,6 +66,11 @@ namespace GestionCompetences.Infrastructure.Services
             }
         }
 
+        /// <summary>
+        /// Modifie les détails d'un certificat appartenant à un utilisateur spécifique.
+        /// </summary>
+        /// <param name="command">La commande contenant les informations mises à jour du certificat.</param>
+        /// <returns>Un résultat en succès ou une erreur si le certificat est introuvable.</returns>
         public Result Handle(ModifierCertificat command)
         {
             try
@@ -77,6 +95,11 @@ namespace GestionCompetences.Infrastructure.Services
             }
         }
 
+        /// <summary>
+        /// Supprime un certificat appartenant à un utilisateur spécifique.
+        /// </summary>
+        /// <param name="command">La commande contenant l'identifiant du certificat et de l'utilisateur.</param>
+        /// <returns>Un résultat en succès ou une erreur si le certificat n'existe pas.</returns>
         public Result Handle(DeleteCertificat command)
         {
             try

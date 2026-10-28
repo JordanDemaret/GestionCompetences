@@ -1,4 +1,4 @@
-﻿using GestionCompetences.API.Dto;
+using GestionCompetences.API.Dto;
 using GestionCompetences.API.Extention;
 using GestionCompetences.Application.Common.Results;
 using GestionCompetences.Application.Competence.Commande;
@@ -10,6 +10,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GestionCompetences.API.Controllers
 {
+    /// <summary>
+    /// Contrôleur gérant les compétences des utilisateurs.
+    /// </summary>
     [ApiController]
     [Authorize]
     [Route("api/competence")]
@@ -18,6 +21,10 @@ namespace GestionCompetences.API.Controllers
 
         private readonly ICompetenceRepository _competenceRepository = competenceRepository;
 
+        /// <summary>
+        /// Récupère l'ensemble des compétences de l'utilisateur connecté, triées par position.
+        /// </summary>
+        /// <returns>La liste des compétences de l'utilisateur.</returns>
         [HttpGet]
         public IActionResult GetAllCompetenceUtilisateur()
         {
@@ -33,6 +40,11 @@ namespace GestionCompetences.API.Controllers
             return Ok(result.Data);
         }
 
+        /// <summary>
+        /// Ajoute une nouvelle compétence pour l'utilisateur connecté avec une position calculée automatiquement.
+        /// </summary>
+        /// <param name="dto">Les informations de la compétence à ajouter.</param>
+        /// <returns>La compétence créée contenant les informations enrichies ou une erreur.</returns>
         [HttpPost]
         public IActionResult AjouterUneCompetence(AddCompetenceDto dto)
         {
@@ -58,6 +70,11 @@ namespace GestionCompetences.API.Controllers
             return Ok(result.Data);
         }
 
+        /// <summary>
+        /// Modifie une compétence existante appartenant à l'utilisateur connecté.
+        /// </summary>
+        /// <param name="dto">Les nouvelles informations de la compétence.</param>
+        /// <returns>Un résultat vide confirmant la modification ou une erreur si la compétence n'existe pas.</returns>
         [HttpPut]
         public IActionResult ModifierCompetence(ModifierCompetenceDto dto)
         {
@@ -85,6 +102,11 @@ namespace GestionCompetences.API.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Supprime une compétence de l'utilisateur connecté et décale les positions des compétences restantes.
+        /// </summary>
+        /// <param name="id">L'identifiant unique de la compétence à supprimer.</param>
+        /// <returns>Un résultat vide confirmant la suppression ou une erreur.</returns>
         [HttpDelete("{id:Guid}")]
         public IActionResult SupprimerCompetence(Guid id)
         {
@@ -101,6 +123,11 @@ namespace GestionCompetences.API.Controllers
             return Ok();
         }
 
+        /// <summary>
+        /// Met à jour l'ordre d'affichage des compétences d'un utilisateur selon une liste ordonnée d'identifiants.
+        /// </summary>
+        /// <param name="dto">Les identifiants ordonnés des compétences à repositionner.</param>
+        /// <returns>Un résultat vide confirmant la réorganisation ou une erreur.</returns>
         [HttpPut("repositionner")]
         public IActionResult RepositionnerCompetences([FromBody] MiseAJourPossitionDto dto)
         {
