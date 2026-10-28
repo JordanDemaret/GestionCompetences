@@ -23,6 +23,10 @@ namespace GestionCompetences.Infrastructure
         public CompetenceDBContext(DbContextOptions options) : base(options) { }
 
 
+        /// <summary>
+        /// Configure le modèle de données en appliquant automatiquement toutes les configurations d'entités de l'assembly.
+        /// </summary>
+        /// <param name="modelBuilder">Le constructeur de modèles Entity Framework.</param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CompetenceDBContext).Assembly);
