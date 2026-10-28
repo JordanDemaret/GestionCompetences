@@ -1,4 +1,4 @@
-﻿using GestionCompetences.Application.Common.Results;
+using GestionCompetences.Application.Common.Results;
 using GestionCompetences.Application.Competence.Commande;
 using GestionCompetences.Application.Competence.Errors;
 using GestionCompetences.Application.Competence.Repository;
@@ -6,15 +6,27 @@ using GestionCompetences.Application.Query;
 using GestionCompetences.Entitie.Competence;
 namespace GestionCompetences.Infrastructure.Services
 {
+    /// <summary>
+    /// Service d'infrastructure implémentant le référentiel des catégories de compétences.
+    /// </summary>
     public class CategorieService : ICategorieRepository
     {
         private readonly CompetenceDBContext _dbContext;
 
+        /// <summary>
+        /// Initialise une nouvelle instance de <see cref="CategorieService"/>.
+        /// </summary>
+        /// <param name="dbContext">Le contexte de base de données de l'application.</param>
         public CategorieService(CompetenceDBContext dbContext)
         {
             _dbContext = dbContext;
         }
 
+        /// <summary>
+        /// Récupère la liste complète des catégories de compétences enregistrées.
+        /// </summary>
+        /// <param name="query">La requête d'obtention de la liste des catégories.</param>
+        /// <returns>La liste des catégories ou une erreur en cas d'exception.</returns>
         public Result<IEnumerable<Categorie>> Handle(GetCategorieListe query)
         {
             try
@@ -27,6 +39,11 @@ namespace GestionCompetences.Infrastructure.Services
             }
         }
 
+        /// <summary>
+        /// Ajoute une nouvelle catégorie de compétences si un nom identique n'existe pas déjà.
+        /// </summary>
+        /// <param name="command">La commande contenant le nom de la catégorie à créer.</param>
+        /// <returns>La catégorie créée avec son identifiant ou une erreur métier.</returns>
         public Result<Categorie> Handle(AddCategorie command)
         {
             try
@@ -50,6 +67,11 @@ namespace GestionCompetences.Infrastructure.Services
             }
         }
 
+        /// <summary>
+        /// Modifie le nom d'une catégorie existante après vérification de son existence et de l'unicité du nouveau nom.
+        /// </summary>
+        /// <param name="command">La commande contenant l'identifiant et le nouveau nom de la catégorie.</param>
+        /// <returns>Un résultat en succès ou une erreur métier appropriée.</returns>
         public Result Handle(ModifierCategorie command)
         {
             try

@@ -1,14 +1,22 @@
-﻿using GestionCompetences.Application.Common.Auth;
+using GestionCompetences.Application.Common.Auth;
 using System.Security.Cryptography;
 
 namespace GestionCompetences.Infrastructure.Auth
 {
+    /// <summary>
+    /// Service responsable du hachage sécurisé et de la vérification des mots de passe avec l'algorithme PBKDF2 (SHA-512).
+    /// </summary>
     public class PasswordHasherService : IPasswordHasher
     {
         private const int SaltSize = 128;
         private const int KeySize = 64;
         private const int Iterations = 100_000;
 
+        /// <summary>
+        /// Hache un mot de passe en clair en générant un sel cryptographique aléatoire de 128 octets et 100 000 itérations PBKDF2-SHA512.
+        /// </summary>
+        /// <param name="motDePasseEnClair">Le mot de passe en clair à hacher.</param>
+        /// <returns>La chaîne formatée "{iterations}.{saltBase64}.{hashBase64}".</returns>
         public string Hash(string motDePasseEnClair)
         {
             byte[] salt = RandomNumberGenerator.GetBytes(SaltSize);
@@ -17,7 +25,13 @@ namespace GestionCompetences.Infrastructure.Auth
             return $"{Iterations}.{Convert.ToBase64String(salt)}.{Convert.ToBase64String(hash)}";
         }
 
-        public bool Verify(string motDePasseEnClair, string motDePasseHache)
+        /// <summary>
+        /// Vérifie si un mot de passe en clair correspond à l'empreinte hachée stockée en temps constant.
+        /// </summary>
+        /// <param name="motDePasseEnClair">Le mot de passe en clair à comparer.</param>
+        /// <param name="motDePasseHache">L'empreinte hachée au format "{iterations}.{saltBase64}.{hashBase64}".</param>
+        /// <returns><c>true</c> si le mot de passe correspond, sinon <c>false</c>.</returns>
+        public bool Verify(string motDePasseEnClair, string? motDePasseHache)
         {
             if (motDePasseHache is null)
             {
