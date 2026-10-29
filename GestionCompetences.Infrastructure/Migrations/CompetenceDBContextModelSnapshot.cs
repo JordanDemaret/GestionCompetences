@@ -38,6 +38,33 @@ namespace GestionCompetences.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Categorie", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("11111111-1111-1111-1111-111111111111"),
+                            Nom = "Back end"
+                        },
+                        new
+                        {
+                            Id = new Guid("11111111-1111-1111-1111-111111111112"),
+                            Nom = "Front end"
+                        },
+                        new
+                        {
+                            Id = new Guid("11111111-1111-1111-1111-111111111113"),
+                            Nom = "C#"
+                        },
+                        new
+                        {
+                            Id = new Guid("11111111-1111-1111-1111-111111111114"),
+                            Nom = "Angular"
+                        },
+                        new
+                        {
+                            Id = new Guid("11111111-1111-1111-1111-111111111115"),
+                            Nom = ".Net"
+                        });
                 });
 
             modelBuilder.Entity("GestionCompetences.Entitie.Competence.CertificatObtenu", b =>
