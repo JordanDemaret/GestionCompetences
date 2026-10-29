@@ -7,5 +7,5 @@ using System.Text;
 
 namespace GestionCompetences.Application.Competence.Commande
 {
-    public record ModifierCompetence(Guid Id,string Nom, string? Note, DateTime DateDeDebut, Visibilite Visibilite, Statut Statut, Guid CategorieId, Guid NiveauId) : ICommandDefinition;
+    public record ModifierCompetence(Guid Id,string Nom, string? Note, DateTime DateDeDebut, Visibilite Visibilite, Statut Statut, Guid UtilisateurId, Guid CategorieId, Guid NiveauId,Guid? CertificatId) : ICommandDefinition;
 }

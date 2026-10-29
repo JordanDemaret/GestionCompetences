@@ -35,12 +35,7 @@ var jwt = builder.Configuration.GetSection(JwtOptions.SectionName).Get<JwtOption
 
 builder.Services.Configure<JwtOptions>(builder.Configuration.GetSection(JwtOptions.SectionName));
 
-builder.Services
-    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.MapInboundClaims = false;
-        options.TokenValidationParameters = new TokenValidationParameters
+TokenValidationParameters  paraJwt = new TokenValidationParameters
         {
             ValidateIssuer = true,
             ValidateAudience = true,
@@ -50,15 +45,22 @@ builder.Services
             ValidAudience = jwt.Audience,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwt.Key)),
         };
+
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = paraJwt;
     });
 
-
+builder.Services.AddSingleton(paraJwt);
 builder.Services.AddSingleton<IPasswordHasher, PasswordHasherService>();
 builder.Services.AddSingleton<ITokenGenerator, TokenGenerator>();
 builder.Services.AddScoped<IUtilisateurRepository, UtilisateurService>();
 builder.Services.AddScoped<ICategorieRepository, CategorieService>();
 builder.Services.AddScoped<INiveauCompetenceRepository, NiveauCompetenceService>();
 builder.Services.AddScoped<ICompetenceRepository, CompetenceService>();
+builder.Services.AddScoped<ICertificatRepository, CertificatService>();
 
 var app = builder.Build();
 

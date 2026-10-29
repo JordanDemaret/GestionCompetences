@@ -1,4 +1,4 @@
-﻿using GestionCompetences.API.Dto;
+using GestionCompetences.API.Dto;
 using GestionCompetences.Application.Common.Auth;
 using GestionCompetences.Application.Common.Results;
 using GestionCompetences.Application.Dto;
@@ -8,12 +8,21 @@ using GestionCompetences.Entitie;
 
 namespace GestionCompetences.Infrastructure.Services
 {
+    /// <summary>
+    /// Service d'infrastructure implémentant la gestion des utilisateurs et le flux d'authentification.
+    /// </summary>
     public class UtilisateurService : IUtilisateurRepository
     {
         private readonly CompetenceDBContext  _dbContext;
         private readonly IPasswordHasher _passwordHasher;
         private readonly ITokenGenerator _tokenGenerator;
 
+        /// <summary>
+        /// Initialise une nouvelle instance de <see cref="UtilisateurService"/>.
+        /// </summary>
+        /// <param name="dbContext">Le contexte de base de données.</param>
+        /// <param name="passwordHasher">Le service de hachage de mot de passe.</param>
+        /// <param name="token">Le générateur de jetons JWT et Refresh Tokens.</param>
         public UtilisateurService(CompetenceDBContext dbContext, IPasswordHasher passwordHasher, ITokenGenerator token)
         {
             _dbContext = dbContext;
@@ -21,6 +30,11 @@ namespace GestionCompetences.Infrastructure.Services
             _tokenGenerator = token;
         }
 
+        /// <summary>
+        /// Inscrit un nouvel utilisateur en hachant son mot de passe et en vérifiant l'unicité de son adresse email.
+        /// </summary>
+        /// <param name="command">La commande contenant le nom, prénom, email et mot de passe en clair.</param>
+        /// <returns>L'identifiant unique (GUID) de l'utilisateur créé ou une erreur.</returns>
         public Result<Guid> Handle(IncriptionCommande command)
         {
             try
@@ -44,6 +58,11 @@ namespace GestionCompetences.Infrastructure.Services
             }
         }
 
+        /// <summary>
+        /// Authentifie l'utilisateur à partir de ses identifiants, vérifie son mot de passe et génère un jeton JWT avec un nouveau Refresh Token.
+        /// </summary>
+        /// <param name="command">La commande contenant l'adresse email et le mot de passe en clair.</param>
+        /// <returns>Le profil de l'utilisateur avec son jeton d'accès et son jeton de rafraîchissement ou une erreur d'authentification.</returns>
         public Result<UtilisateurDto> Handle(ConnexionCommande command)
         {
             try
@@ -68,6 +87,11 @@ namespace GestionCompetences.Infrastructure.Services
             }
         }
 
+        /// <summary>
+        /// Valide le Refresh Token transmis et génère une nouvelle paire de jetons d'accès et de rafraîchissement.
+        /// </summary>
+        /// <param name="command">La commande contenant le jeton expiré et le Refresh Token.</param>
+        /// <returns>La nouvelle paire de jetons ou une erreur si le jeton est invalide ou l'utilisateur non trouvé.</returns>
         public Result<PairTokenDto> Handle(RefreshTokenCommande command)
         {
             try
